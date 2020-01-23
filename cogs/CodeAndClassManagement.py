@@ -57,13 +57,20 @@ class CodeAndClassManagement(commands.Cog):
             await self.removeOtherReactions(react, user)
         return
 
+    async def runCodeCmdError(self, ctx):
+        await ctx.message.delete()
+        await ctx.channel.send('```Please use .code [Game X/5] [CODE]\nExemple:\n\t.code 1 CG3C\nUse .help for more```')
+
     @commands.command(name='.code')
-    async def code(self, ctx, args):
+    async def code(self, ctx, game='', code=''):
         if ctx.channel.name != self.client.adminBotCommandChan:
+            return
+        if not game or not code:
+            await self.runCodeCmdError(ctx)
             return
         codeChan = discord.utils.get(ctx.guild.channels, name=self.client.codesChannelName)
         await ctx.message.delete()
-        msg = await codeChan.send('Code : ' + args + ' Please react with the class you will use.')
+        msg = await codeChan.send('Game ' + game + '\t-\tCode : ' + code + '\nPlease react with the class you will use.')
         for react in self.client.classEmojis:
             await msg.add_reaction(react)
         await asyncio.sleep(60*self.client.minutesToChoseAClass)

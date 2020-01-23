@@ -24,9 +24,10 @@ class SignUpReaction(commands.Cog):
             return
         if react.message.channel.name != self.client.signUpChanName:
             return
-        if react.message == self.client.signUpMessage:
-            activeRole = discord.utils.get(react.message.guild.roles, name=self.client.activeRoleName)
-            await user.remove_role(activeRole)
+        ## Do not remove Active role on unreact for now
+        #if react.message.id == self.client.signUpMessage.id:
+        #    activeRole = discord.utils.get(react.message.guild.roles, name=self.client.activeRoleName)
+        #    await user.remove_roles(activeRole)
 
     @commands.command(name='.start')
     async def start(self, ctx):
@@ -42,13 +43,19 @@ class SignUpReaction(commands.Cog):
         #await signUpChan.send('Please react here to play in the set !'.format(players.mention))
 
     @commands.command(name='.end')
-    async def end(self, ctx):
+    async def end(self, ctx, arg=''):
         if ctx.channel.name != self.client.adminBotCommandChan:
             return
         activeRole = discord.utils.get(ctx.guild.roles, name=self.client.activeRoleName)
         for member in activeRole.members:
             await member.remove_roles(activeRole)
-        await self.client.signUpMessage.delete()
+        if self.client.signUpMessage:
+            await self.client.signUpMessage.delete()
+        if not arg == 'clear':
+            return
+        codesChan = discord.utils.get(ctx.guild.channels, name=self.client.codesChannelName)
+        await codesChan.purge(limit=50)
+
 
 def setup(client):
     client.add_cog(SignUpReaction(client))

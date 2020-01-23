@@ -1,10 +1,10 @@
-minutesToChoseAClass = 0.2
-codesChannelName = "codes"
-medKitRoleName = "medKit"
+minutesToChoseAClass = 3
 classEmojis = ["🦋", "🖐️", "🛸"]
 signUpEmoji = '✅'
 playingRoleName = "Players"
 activeRoleName = "Active"
 signUpChanName = "sign-up"
 adminBotCommandChan = "bot-commands"
+codesChannelName = "codes-and-class-reactions"
+medKitRoleName = "medKit"
 medKitToPlayerMessageId = 669709907288653854

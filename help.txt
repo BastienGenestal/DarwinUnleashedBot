@@ -1,0 +1,29 @@
+--Help--
+Commands can only be use in the 'adminBotCommandChan' text channel.
+
+Commands:
+    [Utils]
+        .help :
+            Prints this help message.
+        .clear :
+            Purges a text channel.
+
+    [Unleashed]
+        .init :
+            Create the message players can react to to get the 'playingRoleName' role and get notifications from .start
+
+        .start :
+            Starts a new set. Create a sign-up message so players can get an 'activeRoleName' role.
+
+        .code [X] [CODE] :
+            Prints
+                   Game [X]  -  Code : [CODE]
+                   Please react with the class you will use.
+
+            After 'minutesToChoseAClass' minutes, prints chosen classes per 'activeRoleName' player.
+
+        .end [clear|'']:
+            Ends a set. Remove every 'activeRoleName' roles, delete the sign-up message,
+            and if 'clear' is an argument, purge 'codesChannelName' text channel
+
+For any suggestion, please contact Khyzz#3639 on Discord
