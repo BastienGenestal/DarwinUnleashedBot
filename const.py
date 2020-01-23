@@ -1,4 +1,4 @@
-minutesToChoseAClass = 3
+minutesToChoseAClass = 1
 classEmojis = ["🦋", "🖐️", "🛸"]
 signUpEmoji = '✅'
 playingRoleName = "Players"
