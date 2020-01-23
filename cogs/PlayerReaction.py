@@ -1,5 +1,3 @@
-import asyncio
-
 import discord
 from discord.ext import commands
 
@@ -8,23 +6,27 @@ class PlayerReaction(commands.Cog):
         self.client = client
         self.client.playerMessage = ''
 
-    @commands.Cog.listener()
-    async def on_reaction_add(self, react, user):
-        if react.message.channel.name != self.client.signUpChanName:
-            return
-        if self.client.playerMessage and react.message.id == self.client.playerMessage.id:
-            playerRole = discord.utils.get(react.message.guild.roles, name=self.client.playingRoleName)
-            await user.add_roles(playerRole)
+    def getTheRightChannelAndRightMessage(self, guild, event):
+        signUpChan = discord.utils.get(guild.channels, name=self.client.signUpChanName)
+        return event.channel_id != signUpChan.id or event.message_id != self.client.medKitToPlayerMessageId
 
     @commands.Cog.listener()
-    async def on_reaction_remove(self, react, user):
-        if user == self.client.user:
+    async def on_raw_reaction_add(self, event):
+        guild = discord.utils.get(self.client.guilds, id=event.guild_id)
+        if self.getTheRightChannelAndRightMessage(guild, event):
             return
-        if react.message.channel.name != self.client.signUpChanName:
+        playerRole = discord.utils.get(guild.roles, name=self.client.playingRoleName)
+        user = discord.utils.get(guild.members, id=event.user_id)
+        await user.add_roles(playerRole)
+
+    @commands.Cog.listener()
+    async def on_raw_reaction_remove(self, event):
+        guild = discord.utils.get(self.client.guilds, id=event.guild_id)
+        if self.getTheRightChannelAndRightMessage(guild, event):
             return
-        if self.client.playerMessage and react.message.id == self.client.playerMessage.id:
-            playerRole = discord.utils.get(react.message.guild.roles, name=self.client.playingRoleName)
-            await user.remove_roles(playerRole)
+        playerRole = discord.utils.get(guild.roles, name=self.client.playingRoleName)
+        user = discord.utils.get(guild.members, id=event.user_id)
+        await user.remove_roles(playerRole)
 
     @commands.command(name='.init')
     async def init(self, ctx):

@@ -7,4 +7,4 @@ signUpChanName = "sign-up"
 adminBotCommandChan = "bot-commands"
 codesChannelName = "codes-and-class-reactions"
 medKitRoleName = "medKit"
-medKitToPlayerMessageId = 669709907288653854
+medKitToPlayerMessageId = 669837360267001866
