@@ -10,7 +10,9 @@ Commands:
 
     [Unleashed]
         .init :
-            Create the message players can react to to get the 'playingRoleName' role and get notifications from .start
+            Be sure of what you are doing using this command, you probably don't need it
+            Generates a new message players can react to get the 'playingRoleName' role and get notifications from .start
+            Warning - You must adapt the 'medKitToPlayerMessageId' variable in const file !
 
         .start :
             Starts a new set. Create a sign-up message so players can get an 'activeRoleName' role.
