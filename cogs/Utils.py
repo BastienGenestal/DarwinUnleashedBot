@@ -17,21 +17,14 @@ class Utils(commands.Cog):
         print('Bot Ready')
 
     @commands.Cog.listener()
-    async def on_message(self, message):
-        # Ignore messages sent in channel with id 1234567890 (#commands channel)
-        if message.channel.name != self.client.adminBotCommandChan:
-            return
-        # Ignore messages sent by the bot
-        if message.author == self.client.user:
-            return
-
-    @commands.Cog.listener()
     async def on_member_join(self, member):
         role = discord.utils.get(member.guild.roles, name=self.client.medKitRoleName)
         await member.add_roles(role)
 
     @commands.command(name='.clear')
     async def clear(self, ctx):
+        if ctx.channel.name != self.client.adminBotCommandChan:
+            return
         await ctx.channel.purge(limit=200)
 
 

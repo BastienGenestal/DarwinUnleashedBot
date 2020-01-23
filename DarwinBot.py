@@ -1,6 +1,7 @@
 import os
 from discord.ext import commands
-from const import codesChannelName, minutesToChoseAClass, medKitRoleName, BRACKETS, reaction_numbers, adminBotCommandChan, classEmojis
+from const import *
+
 
 class DarwinBot(commands.Bot):
     def __init__(self, command_prefix, **options):
@@ -8,13 +9,20 @@ class DarwinBot(commands.Bot):
         # Now self has client
 
         # Initializing constants
-        self.BRACKETS = BRACKETS
-        self.reaction_numbers = reaction_numbers
-        self.classEmojis = classEmojis
         self.adminBotCommandChan = adminBotCommandChan
-        self.medKitRoleName = medKitRoleName
-        self.minutesToChoseAClass = minutesToChoseAClass
+        self.signUpChanName = signUpChanName
         self.codesChannelName = codesChannelName
+
+        self.medKitRoleName = medKitRoleName
+        self.playingRoleName = playingRoleName
+        self.activeRoleName = activeRoleName
+
+        self.classEmojis = classEmojis
+        self.signUpEmoji = signUpEmoji
+
+        self.minutesToChoseAClass = minutesToChoseAClass
+
+        #self.medKitToPlayerMessageId = medKitToPlayerMessageId
 
         # Loading cogs
         for filename in os.listdir('./cogs'):

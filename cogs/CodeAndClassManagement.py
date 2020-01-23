@@ -2,11 +2,10 @@ import asyncio
 import discord
 from discord.ext import commands
 
-class ReactionManagement(commands.Cog):
+class CodeAndClassManagement(commands.Cog):
     def __init__(self, client):
         self.client = client
         self.client.chosenClasses = []
-        self.client.codeMessages = []
 
     def translate_react_to_class(self, react):
         for idx, r in enumerate(self.client.classEmojis):
@@ -52,20 +51,23 @@ class ReactionManagement(commands.Cog):
     async def on_reaction_add(self, react, user):
         if user == self.client.user:
             return
+        if react.message.channel.name != self.client.codesChannelName:
+            return
         if self.updateChosenClasses(react, user):
             await self.removeOtherReactions(react, user)
         return
 
     @commands.command(name='.code')
     async def code(self, ctx, args):
+        if ctx.channel.name != self.client.adminBotCommandChan:
+            return
         codeChan = discord.utils.get(ctx.guild.channels, name=self.client.codesChannelName)
         await ctx.message.delete()
         msg = await codeChan.send('Code : ' + args + ' Please react with the class you will use.')
         for react in self.client.classEmojis:
             await msg.add_reaction(react)
-        self.client.codeMessages.append(ctx.message)
         await asyncio.sleep(60*self.client.minutesToChoseAClass)
         await self.printClassesByPlayer(codeChan)
 
 def setup(client):
-    client.add_cog(ReactionManagement(client))
+    client.add_cog(CodeAndClassManagement(client))
