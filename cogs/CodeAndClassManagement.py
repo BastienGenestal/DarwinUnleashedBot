@@ -85,7 +85,6 @@ class CodeAndClassManagement(commands.Cog):
         return
 
     async def runCodeCmdError(self, ctx):
-        await ctx.message.delete()
         await ctx.channel.send('```Please use .code [Game X/5] [CODE]\nExemple:\n\t.code 1 CG3C\nUse .help for more```')
 
     async def sendAndReactCodeAndClassMsg(self, ctx, game, code, codeChan, activeRole):
@@ -106,13 +105,12 @@ class CodeAndClassManagement(commands.Cog):
 
     async def checkCodeCmd(self, ctx, game, code):
         if not game or not code or len(code) != 4:
-            print(game, code, len(code))
             await self.runCodeCmdError(ctx)
             return 0
         gameNb = int(game)
         curr = (await self.getCurrentGame())
-        if not gameNb or gameNb > self.nbGamePerSet or gameNb != curr:
-            print(gameNb, ">", self.nbGamePerSet, gameNb, "!=", curr)
+        if not gameNb or gameNb > self.nbGamePerSet:
+            print(gameNb, ">", self.nbGamePerSet)
             await self.runCodeCmdError(ctx)
             return 0
         return gameNb
@@ -124,7 +122,8 @@ class CodeAndClassManagement(commands.Cog):
         gameNb = await self.checkCodeCmd(ctx, game, code)
         if not gameNb:
             return
-        await ctx.message.delete()
+        #if ctx.message:
+        #   await ctx.message.delete()
         codeChan = discord.utils.get(ctx.guild.channels, name=self.client.codesChannelName)
         activeRole = discord.utils.get(ctx.guild.roles, name=self.client.activeRoleName)
         msgId = await self.sendAndReactCodeAndClassMsg(ctx, game, code, codeChan, activeRole)
