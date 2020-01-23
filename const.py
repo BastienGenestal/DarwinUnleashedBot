@@ -7,4 +7,4 @@ playingRoleName = "Players"
 activeRoleName = "Active"
 signUpChanName = "sign-up"
 adminBotCommandChan = "bot-commands"
-#medKitToPlayerMessageId = 669673352637448207
+medKitToPlayerMessageId = 669709907288653854

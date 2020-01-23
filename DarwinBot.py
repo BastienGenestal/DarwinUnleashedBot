@@ -22,7 +22,7 @@ class DarwinBot(commands.Bot):
 
         self.minutesToChoseAClass = minutesToChoseAClass
 
-        #self.medKitToPlayerMessageId = medKitToPlayerMessageId
+        self.medKitToPlayerMessageId = medKitToPlayerMessageId
 
         # Loading cogs
         for filename in os.listdir('./cogs'):

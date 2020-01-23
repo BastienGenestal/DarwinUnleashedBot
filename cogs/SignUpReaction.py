@@ -48,6 +48,7 @@ class SignUpReaction(commands.Cog):
         activeRole = discord.utils.get(ctx.guild.roles, name=self.client.activeRoleName)
         for member in activeRole.members:
             await member.remove_roles(activeRole)
+        await self.client.signUpMessage.delete()
 
 def setup(client):
     client.add_cog(SignUpReaction(client))

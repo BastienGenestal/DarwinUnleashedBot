@@ -22,7 +22,7 @@ class PlayerReaction(commands.Cog):
             return
         if react.message.channel.name != self.client.signUpChanName:
             return
-        if react.message.id == self.client.playerMessage.id:
+        if self.client.playerMessage and react.message.id == self.client.playerMessage.id:
             playerRole = discord.utils.get(react.message.guild.roles, name=self.client.playingRoleName)
             await user.remove_roles(playerRole)
 
