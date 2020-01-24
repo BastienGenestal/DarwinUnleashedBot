@@ -21,7 +21,7 @@ class CodeAndClassManagement(commands.Cog):
                 if idx == 0:
                     return 'Wings'
                 if idx == 1:
-                    return 'Grappin'
+                    return 'Grapple'
                 if idx == 2:
                     return 'Drone'
         return ''
