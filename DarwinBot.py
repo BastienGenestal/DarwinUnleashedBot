@@ -12,6 +12,10 @@ class DarwinBot(commands.Bot):
         self.adminBotCommandChan = adminBotCommandChan
         self.signUpChanName = signUpChanName
         self.codesChannelName = codesChannelName
+        self.selectPlatform = selectPlatform
+        self.selectRegion = selectRegion
+        self.platformEmojis = platformEmojis
+        self.regionEmojis = regionEmojis
 
         self.medKitRoleName = medKitRoleName
         self.playingRoleName = playingRoleName
@@ -22,7 +26,12 @@ class DarwinBot(commands.Bot):
 
         self.minutesToChoseAClass = minutesToChoseAClass
 
+        self.regions = regions
+        self.platforms = platforms
+
         self.medKitToPlayerMessageId = medKitToPlayerMessageId
+        self.regionSelectionMessageId = regionSelectionMessage
+        self.platformSelectionMessageId = platformSelectionMessage
 
         # Loading cogs
         for filename in os.listdir('./cogs'):

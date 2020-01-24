@@ -13,10 +13,6 @@ class Utils(commands.Cog):
         raise error
 
     @commands.Cog.listener()
-    async def on_ready(self):
-        print('Bot Ready')
-
-    @commands.Cog.listener()
     async def on_member_join(self, member):
         role = discord.utils.get(member.guild.roles, name=self.client.medKitRoleName)
         await member.add_roles(role)
