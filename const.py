@@ -1,4 +1,4 @@
-minutesToChoseAClass = 1
+minutesToChoseAClass = 3
 
 classEmojis = ["🦋", "🖐️", "🛸"]
 platformEmojis =  ["🖱️", "❌", "🎮"]
