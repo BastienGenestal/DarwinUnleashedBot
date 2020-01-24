@@ -6,6 +6,9 @@ import time
 class CodeAndClassManagement(commands.Cog):
     def __init__(self, client):
         self.client = client
+        self.init_set()
+
+    def init_set(self):
         self.nbGamePerSet = 5
         self.completedGames = [False * self.nbGamePerSet]
         self.lastMessage = 0
@@ -47,22 +50,23 @@ class CodeAndClassManagement(commands.Cog):
 
     async def getCurrentGame(self):
         for i in range(0, len(self.completedGames)):
-            if not self.completedGames[i]:
+            if self.completedGames[i] == False:
                 return i + 1
+        return len(self.completedGames)
 
     async def endAGame(self):
         i = await self.getCurrentGame()
         if i == 1:
             current_time = time.strftime("%H:%M:%S", time.localtime())
-            await self.client.signUpMessage.channel.send('Set is running... First game started at ' + current_time)
             await self.client.signUpMessage.delete()
+            self.client.signUpMessage = await self.client.signUpMessage.channel.send('Set is running... First game started at ' + current_time)
         self.completedGames[i - 1] = True
 
     async def printClassesByPlayer(self, codeChan):
         msg = 'Registered classes by player are:\n'
         for choice in self.client.chosenClasses:
             msg += '\t\t<@{}>\t:\t{}\n'.format(choice['user'].id, choice['class'])
-        msg += "Please, if there is a mistake, contact an organizer with a proof as soon as possible !\n"
+        msg += "Please if there is a mistake, contact an organizer with a proof as soon as possible !\n"
         await codeChan.send(msg)
         self.client.chosenClasses = []
         await self.endAGame()
@@ -130,6 +134,21 @@ class CodeAndClassManagement(commands.Cog):
         if await self.sleepButCheck(60*self.client.minutesToChoseAClass, msgId, codeChan):
             print("Cancelling print")
             await ctx.message.author.send("Cancelled Game {} with code {}".format(game, code))
+
+    @commands.command(name='.end')
+    async def end(self, ctx, arg=''):
+        if ctx.channel.name != self.client.adminBotCommandChan:
+            return
+        activeRole = discord.utils.get(ctx.guild.roles, name=self.client.activeRoleName)
+        for member in activeRole.members:
+            await member.remove_roles(activeRole)
+        if self.client.signUpMessage:
+            await self.client.signUpMessage.delete()
+        self.init_set()
+        if not arg == 'clear':
+            return
+        codesChan = discord.utils.get(ctx.guild.channels, name=self.client.codesChannelName)
+        await codesChan.purge(limit=50)
 
 def setup(client):
     client.add_cog(CodeAndClassManagement(client))

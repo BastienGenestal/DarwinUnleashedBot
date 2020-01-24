@@ -1,23 +1,23 @@
-minutesToChoseAClass = 3
+minutesToChoseAClass = 1
 
 classEmojis = ["🦋", "🖐️", "🛸"]
 platformEmojis =  ["🖱️", "❌", "🎮"]
-regionEmojis =["🇪🇺", "🇺🇸", "🇧🇷", "🇦🇺", "🏳️"]
+regionEmojis =["🇪🇺", "🇺🇸", "🇧🇷", "🇦🇺", "🏳️", "㊙️"]
 signUpEmoji = '✅'
 
-regions = ["EU", "US", "EAST", "AUST", "ASIA"]
-platforms = ["PC", "XBOX", "PS4"]
+regions = ["EU",  "NA-East", "SA", "AP(Sydney)", "NA-West", "AP(Singapore)"]
+platforms = ["PC", "Xbox", "PS4"]
 
 signUpChanName = "sign-up"
 adminBotCommandChan = "bot-commands"
 codesChannelName = "codes-and-class-reactions"
-selectRegion = "select-region"
-selectPlatform = "select-platform"
+selectRegion = "about-you"
+selectPlatform = "about-you"
 
 medKitRoleName = "Medkit"
 playingRoleName = "Players"
 activeRoleName = "Active"
 
 medKitToPlayerMessageId = 669847178419896322
-regionSelectionMessage = 670251226906230824
-platformSelectionMessage = 670256406846373888
+regionSelectionMessage = 670266247023427594
+platformSelectionMessage = 670262105060147207
