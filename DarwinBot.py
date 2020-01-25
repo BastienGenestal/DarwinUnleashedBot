@@ -20,14 +20,20 @@ class DarwinBot(commands.Bot):
         self.medKitRoleName = medKitRoleName
         self.playingRoleName = playingRoleName
         self.activeRoleName = activeRoleName
+        self.fillerRoleName = fillerRoleName
+        self.logsChan = logsChan
 
         self.classEmojis = classEmojis
         self.signUpEmoji = signUpEmoji
+        self.fillerReactEmoji = fillerReactEmoji
 
         self.minutesToChoseAClass = minutesToChoseAClass
+        self.maxActivePlayers = maxActivePlayers
 
         self.regions = regions
         self.platforms = platforms
+        self.feedback = feedback
+        self.receivedFeedback = receivedFeedback
 
         self.medKitToPlayerMessageId = medKitToPlayerMessageId
         self.regionSelectionMessageId = regionSelectionMessage

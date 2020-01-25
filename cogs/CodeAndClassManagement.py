@@ -10,10 +10,10 @@ class CodeAndClassManagement(commands.Cog):
 
     def init_set(self):
         self.nbGamePerSet = 5
-        self.completedGames = [False * self.nbGamePerSet]
         self.lastMessage = 0
         self.cancelledMsg = []
         self.client.chosenClasses = []
+        self.client.fillerMsg = ''
 
     def translate_react_to_class(self, react):
         for idx, r in enumerate(self.client.classEmojis):
@@ -48,19 +48,10 @@ class CodeAndClassManagement(commands.Cog):
                 except:
                     print("No reaction")
 
-    async def getCurrentGame(self):
-        for i in range(0, len(self.completedGames)):
-            if self.completedGames[i] == False:
-                return i + 1
-        return len(self.completedGames)
-
-    async def endAGame(self):
-        i = await self.getCurrentGame()
-        if i == 1:
-            current_time = time.strftime("%H:%M:%S", time.localtime())
-            await self.client.signUpMessage.delete()
-            self.client.signUpMessage = await self.client.signUpMessage.channel.send('Set is running... First game started at ' + current_time)
-        self.completedGames[i - 1] = True
+    async def removeSignUpMessages(self):
+        current_time = time.strftime("%H:%M:%S", time.localtime())
+        await self.client.signUpMessage.delete()
+        self.client.signUpMessage = await self.client.signUpMessage.channel.send('Set is running... First game started at ' + current_time)
 
     async def printClassesByPlayer(self, codeChan):
         msg = 'Registered classes by player are:\n'
@@ -69,7 +60,6 @@ class CodeAndClassManagement(commands.Cog):
         msg += "Please if there is a mistake, contact an organizer with a proof as soon as possible !\n"
         await codeChan.send(msg)
         self.client.chosenClasses = []
-        await self.endAGame()
 
     @commands.Cog.listener()
     async def on_reaction_add(self, react, user):
@@ -104,7 +94,6 @@ class CodeAndClassManagement(commands.Cog):
             await asyncio.sleep(1)
             if msgId in self.cancelledMsg:
                 return True
-        await self.printClassesByPlayer(codeChan)
         return False
 
     async def checkCodeCmd(self, ctx, game, code):
@@ -112,7 +101,6 @@ class CodeAndClassManagement(commands.Cog):
             await self.runCodeCmdError(ctx)
             return 0
         gameNb = int(game)
-        curr = (await self.getCurrentGame())
         if not gameNb or gameNb > self.nbGamePerSet:
             print(gameNb, ">", self.nbGamePerSet)
             await self.runCodeCmdError(ctx)
@@ -134,14 +122,22 @@ class CodeAndClassManagement(commands.Cog):
         if await self.sleepButCheck(60*self.client.minutesToChoseAClass, msgId, codeChan):
             print("Cancelling print")
             await ctx.message.author.send("Cancelled Game {} with code {}".format(game, code))
+            return
+        if gameNb == 1:
+            self.removeSignUpMessages()
+        await self.printClassesByPlayer(codeChan)
+
 
     @commands.command(name='.end')
     async def end(self, ctx, arg=''):
         if ctx.channel.name != self.client.adminBotCommandChan:
             return
         activeRole = discord.utils.get(ctx.guild.roles, name=self.client.activeRoleName)
-        for member in activeRole.members:
-            await member.remove_roles(activeRole)
+        fillRole = discord.utils.get(ctx.guild.roles, name=self.client.fillerRoleName)
+        async for member in activeRole.members:
+            member.remove_roles(activeRole)
+        async for member in fillRole.members:
+            member.remove_roles(fillRole)
         if self.client.signUpMessage:
             await self.client.signUpMessage.delete()
         self.init_set()
