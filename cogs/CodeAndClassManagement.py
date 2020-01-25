@@ -134,14 +134,14 @@ class CodeAndClassManagement(commands.Cog):
             return
         activeRole = discord.utils.get(ctx.guild.roles, name=self.client.activeRoleName)
         fillRole = discord.utils.get(ctx.guild.roles, name=self.client.fillerRoleName)
-        async for member in activeRole.members:
+        for member in activeRole.members:
             member.remove_roles(activeRole)
-        async for member in fillRole.members:
+        for member in fillRole.members:
             member.remove_roles(fillRole)
         if self.client.signUpMessage:
             await self.client.signUpMessage.delete()
         self.init_set()
-        if not arg == 'clear':
+        if arg != 'clear':
             return
         codesChan = discord.utils.get(ctx.guild.channels, name=self.client.codesChannelName)
         await codesChan.purge(limit=50)
