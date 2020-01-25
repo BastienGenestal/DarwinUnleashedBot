@@ -9,7 +9,7 @@ fillerReactEmoji = "👋"
 regions = ["EU",  "NA-East", "SA", "AP(Sydney)", "NA-West", "AP(Singapore)"]
 platforms = ["PC", "Xbox", "PS4"]
 
-logsChan = "logs"
+logsChan = "bot-commands"
 signUpChanName = "sign-up"
 adminBotCommandChan = "bot-commands"
 codesChannelName = "codes-and-class-reactions"
@@ -17,7 +17,7 @@ selectRegion = "about-you"
 selectPlatform = "about-you"
 feedback = "feedback"
 receivedFeedback = "received-feedback"
-maxActivePlayers = 1
+maxActivePlayers = 10
 
 medKitRoleName = "Medkit"
 playingRoleName = "Players"
