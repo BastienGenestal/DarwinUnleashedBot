@@ -124,7 +124,7 @@ class CodeAndClassManagement(commands.Cog):
             await ctx.message.author.send("Cancelled Game {} with code {}".format(game, code))
             return
         if gameNb == 1:
-            self.removeSignUpMessages()
+            await self.removeSignUpMessages()
         await self.printClassesByPlayer(codeChan)
 
 
