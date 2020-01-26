@@ -135,9 +135,9 @@ class CodeAndClassManagement(commands.Cog):
         activeRole = discord.utils.get(ctx.guild.roles, name=self.client.activeRoleName)
         fillRole = discord.utils.get(ctx.guild.roles, name=self.client.fillerRoleName)
         for member in activeRole.members:
-            member.remove_roles(activeRole)
+            await member.remove_roles(activeRole)
         for member in fillRole.members:
-            member.remove_roles(fillRole)
+            await member.remove_roles(fillRole)
         if self.client.signUpMessage:
             await self.client.signUpMessage.delete()
         self.init_set()
