@@ -21,6 +21,7 @@ class DarwinBot(commands.Bot):
         self.playingRoleName = playingRoleName
         self.activeRoleName = activeRoleName
         self.fillerRoleName = fillerRoleName
+        self.organizingRoleName = organizingRoleName
         self.logsChan = logsChan
 
         self.classEmojis = classEmojis
@@ -38,6 +39,8 @@ class DarwinBot(commands.Bot):
         self.medKitToPlayerMessageId = medKitToPlayerMessageId
         self.regionSelectionMessageId = regionSelectionMessage
         self.platformSelectionMessageId = platformSelectionMessage
+
+        self.signUpMessage = ''
 
         # Loading cogs
         for filename in os.listdir('./cogs'):

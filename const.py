@@ -5,6 +5,7 @@ platformEmojis =  ["🖱️", "❌", "🎮"]
 regionEmojis =["🇪🇺", "🇺🇸", "🇧🇷", "🇦🇺", "🏳️", "㊙️"]
 signUpEmoji = '✅'
 fillerReactEmoji = "👋"
+unleashedEmoji = "<:unleashed:670671977350168586>"
 
 regions = ["EU",  "NA-East", "SA", "AP(Sydney)", "NA-West", "AP(Singapore)"]
 platforms = ["PC", "Xbox", "PS4"]
@@ -23,6 +24,8 @@ medKitRoleName = "Medkit"
 playingRoleName = "Players"
 activeRoleName = "Active"
 fillerRoleName = "Filler"
+organizingRoleName = "Organizing"
+
 
 medKitToPlayerMessageId = 669847178419896322
 regionSelectionMessage = 670266247023427594

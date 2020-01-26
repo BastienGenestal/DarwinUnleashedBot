@@ -57,7 +57,7 @@ class CodeAndClassManagement(commands.Cog):
         msg = 'Registered classes by player are:\n'
         for choice in self.client.chosenClasses:
             msg += '\t\t<@{}>\t:\t{}\n'.format(choice['user'].id, choice['class'])
-        msg += "Please if there is a mistake, contact an organizer with a proof as soon as possible !\n"
+        msg += "If there is a mistake please contact the organizer of this set as soon as possible !\n"
         await codeChan.send(msg)
         self.client.chosenClasses = []
 
@@ -134,12 +134,17 @@ class CodeAndClassManagement(commands.Cog):
             return
         activeRole = discord.utils.get(ctx.guild.roles, name=self.client.activeRoleName)
         fillRole = discord.utils.get(ctx.guild.roles, name=self.client.fillerRoleName)
+        organizingRole = discord.utils.get(ctx.guild.roles, name=self.client.organizingRoleName)
         for member in activeRole.members:
             await member.remove_roles(activeRole)
         for member in fillRole.members:
             await member.remove_roles(fillRole)
+        for member in organizingRole.members:
+            await member.remove_roles(organizingRole)
         if self.client.signUpMessage:
             await self.client.signUpMessage.delete()
+        if self.client.fillerMsg:
+            await self.client.fillerMsg.delete()
         self.init_set()
         if arg != 'clear':
             return
