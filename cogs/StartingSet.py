@@ -23,11 +23,18 @@ class DefaultCog(commands.Cog):
             organizingRole = discord.utils.get(react.message.guild.roles, name=self.client.organizingRoleName)
             await user.remove_roles(organizingRole)
 
+    async def startCmdError(self, ctx):
+        await ctx.channel.send("```Please use .start [X]\n\tX\tMinutes before the sign up message```")
+        return 0
 
     @commands.command(name='.start')
-    async def start(self, ctx):
+    async def start(self, ctx, mins='15'):
         if ctx.channel.name != self.client.adminBotCommandChan:
             return
+        try:
+            minsNb = float(mins)
+        except Exception:
+            return await self.startCmdError(ctx)
         self.signUpCmdMsg = ctx.message
         await self.signUpCmdMsg.add_reaction(self.client.signUpEmoji)
         signUpChan = discord.utils.get(ctx.guild.channels, name=self.client.signUpChanName)
@@ -35,8 +42,9 @@ class DefaultCog(commands.Cog):
         #self.client.signUpMessage = await signUpChan.send(
         #    '{} games starting in 15 minutes, react to participate !'.format(players.mention))
         #await self.client.signUpMessage.add_reaction(self.client.signUpEmoji)
-        temp = await signUpChan.send('{} Sign up for the next set in 15 minutes!\nBe quick or you might miss it :wink:'.format(players.mention))
-        await asyncio.sleep(60)#*15)
+        minutesStr = 'minute' if (minsNb <= 1) else 'minutes'
+        temp = await signUpChan.send('{} Sign up for the next set in {} {} !\nBe quick or you might miss it :wink:'.format(players.mention, mins, minutesStr))
+        await asyncio.sleep(60*minsNb)
         await temp.delete()
         self.client.signUpMessage = await signUpChan.send('Please react here to play in the set !'.format(players.mention))
         await self.client.signUpMessage.add_reaction(self.client.signUpEmoji)

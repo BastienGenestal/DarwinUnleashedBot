@@ -85,7 +85,7 @@ class CodeAndClassManagement(commands.Cog):
 
     async def sendAndReactCodeAndClassMsg(self, ctx, game, code, codeChan, activeRole):
         msg = await codeChan.send(
-            'Game ' + game + '\t-\tCode : ' + code + '\n{} Please react with the class you will use.'.format(activeRole.mention))
+            'Game ' + game + '\t-\tCode : **' + code + '\n** **{}** Please react with the class you will use.'.format(activeRole.mention))
         for react in self.client.classEmojis:
             await msg.add_reaction(react)
         self.lastMessage = msg.id
@@ -127,7 +127,7 @@ class CodeAndClassManagement(commands.Cog):
         msgId = await self.sendAndReactCodeAndClassMsg(ctx, game, code, codeChan, activeRole)
         if await self.sleepButCheck(60*self.client.minutesToChoseAClass, msgId, codeChan):
             print("Cancelling print")
-            await ctx.message.author.send("Cancelled Game {} with code {}".format(game, code))
+            await ctx.message.author.send("Cancelled Game {} with code **{}**".format(game, code))
             return
         if gameNb == 1:
             await self.removeSignUpMessages()
