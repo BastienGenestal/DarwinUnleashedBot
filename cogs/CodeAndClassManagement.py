@@ -16,8 +16,10 @@ class CodeAndClassManagement(commands.Cog):
         self.client.fillerMsg = ''
 
     def translate_react_to_class(self, react):
-        for idx, r in enumerate(self.client.classEmojis):
-            if r == react.emoji:
+        for idx, r in enumerate(self.client.classEmojisId):
+            if type(react.emoji) != discord.emoji.Emoji:
+                return
+            if r == react.emoji.id:
                 if idx == 0:
                     return 'Wings'
                 if idx == 1:
@@ -100,7 +102,11 @@ class CodeAndClassManagement(commands.Cog):
         if not game or not code or len(code) != 4:
             await self.runCodeCmdError(ctx)
             return 0
-        gameNb = int(game)
+        try:
+            gameNb = int(game)
+        except Exception:
+            await self.runCodeCmdError(ctx)
+            return 0
         if not gameNb or gameNb > self.nbGamePerSet:
             print(gameNb, ">", self.nbGamePerSet)
             await self.runCodeCmdError(ctx)

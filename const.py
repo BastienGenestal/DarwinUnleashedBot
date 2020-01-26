@@ -1,6 +1,7 @@
 minutesToChoseAClass = 3
 
-classEmojis = ["🦋", "🖐️", "🛸"]
+classEmojis = ["<:wings:671004464974397443>", "<:grapple:671004444204466176>", "<:birdrone:671004417356595233>"]
+classEmojisId = [671004464974397443, 671004444204466176, 671004417356595233]
 platformEmojis =  ["🖱️", "❌", "🎮"]
 regionEmojis =["🇪🇺", "🇺🇸", "🇧🇷", "🇦🇺", "🏳️", "㊙️"]
 signUpEmoji = '✅'
@@ -24,7 +25,7 @@ medKitRoleName = "Medkit"
 playingRoleName = "Players"
 activeRoleName = "Active"
 fillerRoleName = "Filler"
-organizingRoleName = "Organizing"
+organizingRoleName = "Active-Organizer"
 
 
 medKitToPlayerMessageId = 669847178419896322

@@ -25,6 +25,7 @@ class DarwinBot(commands.Bot):
         self.logsChan = logsChan
 
         self.classEmojis = classEmojis
+        self.classEmojisId = classEmojisId
         self.signUpEmoji = signUpEmoji
         self.fillerReactEmoji = fillerReactEmoji
 
