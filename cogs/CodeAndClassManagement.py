@@ -13,7 +13,7 @@ class CodeAndClassManagement(commands.Cog):
         self.lastMessage = 0
         self.cancelledMsg = []
         self.client.chosenClasses = []
-        self.client.fillerMsg = ''
+        self.client.fillerMsg = None
 
     def translate_react_to_class(self, react):
         for idx, r in enumerate(self.client.classEmojisId):

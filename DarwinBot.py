@@ -41,7 +41,7 @@ class DarwinBot(commands.Bot):
         self.regionSelectionMessageId = regionSelectionMessage
         self.platformSelectionMessageId = platformSelectionMessage
 
-        self.signUpMessage = ''
+        self.signUpMessage = None
 
         # Loading cogs
         for filename in os.listdir('./cogs'):
