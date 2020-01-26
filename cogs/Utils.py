@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands
 from discord.ext.commands import CommandNotFound
 
+
 class Utils(commands.Cog):
     def __init__(self, client):
         self.client = client
@@ -33,6 +34,21 @@ class Utils(commands.Cog):
             return
         await ctx.channel.purge(limit=200)
 
+    @commands.command(name='.whois')
+    async def whois(self, ctx, *args):
+        if ctx.channel.name != self.client.adminBotCommandChan:
+            return
+        msg = ''
+        for arg in args:
+            role = discord.utils.get(ctx.guild.roles, name=arg)
+            if not role:
+                msg += "{} role does not exist.\n".format(arg)
+                continue
+            msg += "{} :\n".format(role.name)
+            for member in role.members:
+                msg += "\t{}\n".format(member.name)
+        await ctx.channel.send("```{}```".format(msg))
+
     def getOneConstLine(self, variableName, value):
         return '\t\t{} = {}\n'.format(variableName, value)
 
@@ -54,6 +70,7 @@ class Utils(commands.Cog):
         msg += "```"
         await ctx.message.author.send(msg)
         await ctx.message.delete()
+
 
 def setup(client):
     client.add_cog(Utils(client))
