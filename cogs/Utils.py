@@ -34,21 +34,6 @@ class Utils(commands.Cog):
             return
         await ctx.channel.purge(limit=200)
 
-    @commands.command(name='.whois')
-    async def whois(self, ctx, *args):
-        if ctx.channel.name != self.client.adminBotCommandChan:
-            return
-        msg = ''
-        for arg in args:
-            role = discord.utils.get(ctx.guild.roles, name=arg)
-            if not role:
-                msg += "{} role does not exist.\n".format(arg)
-                continue
-            msg += "{} :\n".format(role.name)
-            for member in role.members:
-                msg += "\t{}\n".format(member.name)
-        await ctx.channel.send("```{}```".format(msg))
-
     def getOneConstLine(self, variableName, value):
         return '\t\t{} = {}\n'.format(variableName, value)
 
