@@ -3,6 +3,7 @@ import discord
 from discord.ext import commands
 import time
 
+
 class CodeAndClassManagement(commands.Cog):
     def __init__(self, client):
         self.client = client
@@ -68,7 +69,6 @@ class CodeAndClassManagement(commands.Cog):
         await self.client.signUpMessage.delete()
         await self.sendSetIsRunningMessage(ctx, signUpChan)
 
-
     async def printClassesByPlayer(self, codeChan):
         msg = 'Registered classes by player are:\n'
         for choice in self.client.chosenClasses:
@@ -99,7 +99,8 @@ class CodeAndClassManagement(commands.Cog):
 
     async def sendAndReactCodeAndClassMsg(self, ctx, game, code, codeChan, activeRole):
         msg = await codeChan.send(
-            'Game ' + game + '\t-\tCode : **' + code + '\n** **{}** Please react with the class you will use.'.format(activeRole.mention))
+            'Game ' + game + '\t-\tCode : **' + code + '\n** **{}** Please react with the class you will use.'.format(
+                activeRole.mention))
         for react in self.client.classEmojis:
             await msg.add_reaction(react)
         self.lastMessage = msg.id
@@ -139,14 +140,13 @@ class CodeAndClassManagement(commands.Cog):
         codeChan = discord.utils.get(ctx.guild.channels, name=self.client.codesChannelName)
         activeRole = discord.utils.get(ctx.guild.roles, name=self.client.activeRoleName)
         msgId = await self.sendAndReactCodeAndClassMsg(ctx, game, code, codeChan, activeRole)
-        if await self.sleepButCheck(60*self.client.minutesToChoseAClass, msgId):
+        if await self.sleepButCheck(60 * self.client.minutesToChoseAClass, msgId):
             print("Cancelling print")
             await ctx.message.author.send("Cancelled Game {} with code **{}**".format(game, code))
             return
         if gameNb == 1:
             await self.removeSignUpMessages(ctx)
         await self.printClassesByPlayer(codeChan)
-
 
     @commands.command(name='.end')
     async def end(self, ctx, arg=''):
@@ -170,6 +170,7 @@ class CodeAndClassManagement(commands.Cog):
             return
         codesChan = discord.utils.get(ctx.guild.channels, name=self.client.codesChannelName)
         await codesChan.purge(limit=50)
+
 
 def setup(client):
     client.add_cog(CodeAndClassManagement(client))

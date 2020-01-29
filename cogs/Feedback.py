@@ -1,7 +1,8 @@
 import discord
 from discord.ext import commands
 
-class DefaultCog(commands.Cog):
+
+class Feedback(commands.Cog):
     def __init__(self, client):
         self.client = client
 
@@ -22,5 +23,6 @@ class DefaultCog(commands.Cog):
             await msg.author.send("Thank you for the feedback !\nYour feedback:\n```{}```".format(msgcontent))
         return
 
+
 def setup(client):
-    client.add_cog(DefaultCog(client))
+    client.add_cog(Feedback(client))

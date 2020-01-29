@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
 
+
 class RegionChoice(commands.Cog):
     def __init__(self, client):
         self.client = client
@@ -37,6 +38,7 @@ class RegionChoice(commands.Cog):
         self.regionMsg = await chan.send('Select your region here!')
         for react in self.client.regionEmojis:
             await self.regionMsg.add_reaction(react)
+
 
 def setup(client):
     client.add_cog(RegionChoice(client))

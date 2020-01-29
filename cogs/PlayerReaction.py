@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
 
+
 class PlayerReaction(commands.Cog):
     def __init__(self, client):
         self.client = client
@@ -32,8 +33,10 @@ class PlayerReaction(commands.Cog):
         if ctx.channel.name != self.client.adminBotCommandChan:
             return
         signUpChan = discord.utils.get(ctx.guild.channels, name=self.client.signUpChanName)
-        playerMessage = await signUpChan.send('If you are interested in getting a notification for the next set react here to become a player (:')
+        playerMessage = await signUpChan.send(
+            'If you are interested in getting a notification for the next set react here to become a player (:')
         await playerMessage.add_reaction(self.client.signUpEmoji)
+
 
 def setup(client):
     client.add_cog(PlayerReaction(client))
