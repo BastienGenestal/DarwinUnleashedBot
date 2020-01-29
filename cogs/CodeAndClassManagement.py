@@ -50,10 +50,24 @@ class CodeAndClassManagement(commands.Cog):
                 except:
                     print("No reaction")
 
-    async def removeSignUpMessages(self):
-        current_time = time.strftime("%H:%M:%S", time.localtime())
+    async def sendSetIsRunningMessage(self, ctx, chan):
+        current_time = time.strftime("%H:%M:%S", time.gmtime())
+        str = 'Set is running... First game started at {} UTC\n'.format(current_time)
+        organizer = discord.utils.get(ctx.channel.guild.roles, name=self.client.organizingRoleName)
+        if not organizer:
+            str += 'No organizer'
+        else:
+            str += 'Active Organizer(s):\n'
+            for member in organizer.members:
+                str += '\t<@{}>\n'.format(member.id)
+        str += 'Director is: <@{}>\n'.format(ctx.message.author.id)
+        self.client.signUpMessage = await chan.send(str)
+
+    async def removeSignUpMessages(self, ctx):
+        signUpChan = self.client.signUpMessage.channel
         await self.client.signUpMessage.delete()
-        self.client.signUpMessage = await self.client.signUpMessage.channel.send('Set is running... First game started at ' + current_time)
+        await self.sendSetIsRunningMessage(ctx, signUpChan)
+
 
     async def printClassesByPlayer(self, codeChan):
         msg = 'Registered classes by player are:\n'
@@ -91,7 +105,9 @@ class CodeAndClassManagement(commands.Cog):
         self.lastMessage = msg.id
         return msg.id
 
-    async def sleepButCheck(self, reactTime, msgId, codeChan):
+    async def sleepButCheck(self, reactTime, msgId):
+        if not reactTime:
+            return False
         for i in range(reactTime):
             await asyncio.sleep(1)
             if msgId in self.cancelledMsg:
@@ -120,17 +136,15 @@ class CodeAndClassManagement(commands.Cog):
         gameNb = await self.checkCodeCmd(ctx, game, code)
         if not gameNb:
             return
-        #if ctx.message:
-        #   await ctx.message.delete()
         codeChan = discord.utils.get(ctx.guild.channels, name=self.client.codesChannelName)
         activeRole = discord.utils.get(ctx.guild.roles, name=self.client.activeRoleName)
         msgId = await self.sendAndReactCodeAndClassMsg(ctx, game, code, codeChan, activeRole)
-        if await self.sleepButCheck(60*self.client.minutesToChoseAClass, msgId, codeChan):
+        if await self.sleepButCheck(60*self.client.minutesToChoseAClass, msgId):
             print("Cancelling print")
             await ctx.message.author.send("Cancelled Game {} with code **{}**".format(game, code))
             return
         if gameNb == 1:
-            await self.removeSignUpMessages()
+            await self.removeSignUpMessages(ctx)
         await self.printClassesByPlayer(codeChan)
 
 

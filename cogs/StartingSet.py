@@ -46,7 +46,7 @@ class DefaultCog(commands.Cog):
         temp = await signUpChan.send('{} Sign up for the next set in {} {} !\nBe quick or you might miss it :wink:'.format(players.mention, mins, minutesStr))
         await asyncio.sleep(60*minsNb)
         await temp.delete()
-        self.client.signUpMessage = await signUpChan.send('Please react here to play in the set !'.format(players.mention))
+        self.client.signUpMessage = await signUpChan.send('Please react here to play in the set !')
         await self.client.signUpMessage.add_reaction(self.client.signUpEmoji)
 
 
