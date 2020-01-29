@@ -2,6 +2,7 @@ import asyncio
 import discord
 from discord.ext import commands
 
+
 class StartingSet(commands.Cog):
     def __init__(self, client):
         self.client = client
@@ -33,7 +34,7 @@ class StartingSet(commands.Cog):
             return
         try:
             minsNb = float(mins)
-        except Exception:
+        except (ValueError, TypeError):
             return await self.startCmdError(ctx)
         self.signUpCmdMsg = ctx.message
         await self.signUpCmdMsg.add_reaction(self.client.signUpEmoji)
