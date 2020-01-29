@@ -2,7 +2,7 @@ import asyncio
 import discord
 from discord.ext import commands
 
-class DefaultCog(commands.Cog):
+class StartingSet(commands.Cog):
     def __init__(self, client):
         self.client = client
         self.signUpCmdMsg = None
@@ -51,4 +51,4 @@ class DefaultCog(commands.Cog):
 
 
 def setup(client):
-    client.add_cog(DefaultCog(client))
+    client.add_cog(StartingSet(client))
