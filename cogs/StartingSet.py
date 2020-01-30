@@ -40,9 +40,10 @@ class StartingSet(commands.Cog):
         await self.signUpCmdMsg.add_reaction(self.client.signUpEmoji)
         signUpChan = discord.utils.get(ctx.guild.channels, name=self.client.signUpChanName)
         players = discord.utils.get(ctx.guild.roles, name=self.client.playingRoleName)
-        # self.client.signUpMessage = await signUpChan.send(
-        #    '{} games starting in 15 minutes, react to participate !'.format(players.mention))
-        # await self.client.signUpMessage.add_reaction(self.client.signUpEmoji)
+        if minsNb == 0:
+            self.client.signUpMessage = await signUpChan.send('{} games starting in 15 minutes, react to participate !'.format(players.mention))
+            await self.client.signUpMessage.add_reaction(self.client.signUpEmoji)
+            return
         minutesStr = 'minute' if (minsNb <= 1) else 'minutes'
         temp = await signUpChan.send(
             '{} Sign up for the next set in {} {} !\nBe quick or you might miss it :wink:'.format(players.mention, mins,

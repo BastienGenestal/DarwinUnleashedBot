@@ -67,6 +67,7 @@ class CodeAndClassManagement(commands.Cog):
     async def removeSignUpMessages(self, ctx):
         signUpChan = self.client.signUpMessage.channel
         await self.client.signUpMessage.delete()
+        self.client.signUpMessage = None
         await self.sendSetIsRunningMessage(ctx, signUpChan)
 
     async def printClassesByPlayer(self, codeChan):
