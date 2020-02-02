@@ -28,7 +28,7 @@ class FillerReaction(commands.Cog):
             return
         if react.message.channel.name != self.client.signUpChanName:
             return
-        if react.message.id == self.client.signUpMessage.id:
+        if self.client.signUpMessage and react.message.id == self.client.signUpMessage.id:
             fillerRole = discord.utils.get(react.message.guild.roles, name=self.client.activeRoleName)
             await user.remove_roles(fillerRole)
 
