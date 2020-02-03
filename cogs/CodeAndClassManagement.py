@@ -51,7 +51,7 @@ class CodeAndClassManagement(commands.Cog):
                 except:
                     print("No reaction")
 
-    async def sendSetIsRunningMessage(self, ctx, chan):
+    async def sendSetIsRunningMessage(self, ctx):
         current_time = time.strftime("%H:%M:%S", time.gmtime())
         str = 'Set is running... First game started at {} UTC\n'.format(current_time)
         organizer = discord.utils.get(ctx.channel.guild.roles, name=self.client.organizingRoleName)
@@ -62,13 +62,14 @@ class CodeAndClassManagement(commands.Cog):
             for member in organizer.members:
                 str += '\t<@{}>\n'.format(member.id)
         str += 'Director is: <@{}>\n'.format(ctx.message.author.id)
+        chan = discord.utils.get(ctx.guild.channels, name=self.client.signUpChanName)
         self.client.signUpMessage = await chan.send(str)
 
     async def removeSignUpMessages(self, ctx):
-        signUpChan = self.client.signUpMessage.channel
-        await self.client.signUpMessage.delete()
+        if self.client.signUpMessage:
+            await self.client.signUpMessage.delete()
         self.client.signUpMessage = None
-        await self.sendSetIsRunningMessage(ctx, signUpChan)
+        await self.sendSetIsRunningMessage(ctx)
 
     async def printClassesByPlayer(self, codeChan):
         msg = 'Registered classes by player are:\n'
@@ -103,7 +104,10 @@ class CodeAndClassManagement(commands.Cog):
             'Game ' + game + '\t-\tCode : **' + code + '\n** **{}** Please react with the class you will use.'.format(
                 activeRole.mention))
         for react in self.client.classEmojis:
-            await msg.add_reaction(react)
+            try:
+                await msg.add_reaction(react)
+            except Exception as e:
+                print(e)
         self.lastMessage = msg.id
         return msg.id
 
