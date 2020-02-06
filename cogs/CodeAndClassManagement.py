@@ -81,9 +81,7 @@ class CodeAndClassManagement(commands.Cog):
 
     @commands.Cog.listener()
     async def on_reaction_add(self, react, user):
-        if user == self.client.user:
-            return
-        if react.message.channel.name != self.client.codesChannelName:
+        if user == self.client.user or react.message.channel.name != self.client.codesChannelName or react.message.id != self.lastMessage:
             return
         if self.updateChosenClasses(react, user):
             await self.removeOtherReactions(react, user)
