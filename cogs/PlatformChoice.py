@@ -32,9 +32,9 @@ class PlatformChoice(commands.Cog):
 
     @commands.command(name='.init_platform_msg')
     async def init_platform_msg(self, ctx):
-        if ctx.channel.name != self.client.adminBotCommandChan:
+        if ctx.channel.name != self.client.botCommandChan:
             return
-        chan = discord.utils.get(ctx.guild.channels, name=self.client.selectPlatform)
+        chan = discord.utils.get(ctx.guild.channels, name=self.client.selectPlatformChanName)
         self.platformMsg = await chan.send('Select your platform here!')
         for react in self.client.platformEmojis:
             await self.platformMsg.add_reaction(react)

@@ -1,5 +1,5 @@
 --Help--
-Commands can only be use in the 'adminBotCommandChan' text channel.
+Commands can only be use in the 'botCommandChan' text channel.
 
 Commands:
     [Utils]
@@ -26,6 +26,6 @@ Commands:
 
         .end [clear|'']:
             Ends a set. Remove every 'activeRoleName' roles, delete the sign-up message,
-            and if 'clear' is an argument, purge 'codesChannelName' text channel
+            and if 'clear' is an argument, purge 'codesChanName' text channel
 
 For any suggestion, please contact Khyzz#3639 on Discord

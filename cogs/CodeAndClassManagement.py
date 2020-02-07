@@ -81,7 +81,7 @@ class CodeAndClassManagement(commands.Cog):
 
     @commands.Cog.listener()
     async def on_reaction_add(self, react, user):
-        if user == self.client.user or react.message.channel.name != self.client.codesChannelName or react.message.id != self.lastMessage:
+        if user == self.client.user or react.message.channel.name != self.client.codesChanName or react.message.id != self.lastMessage:
             return
         if self.updateChosenClasses(react, user):
             await self.removeOtherReactions(react, user)
@@ -135,12 +135,12 @@ class CodeAndClassManagement(commands.Cog):
 
     @commands.command(name='.code')
     async def code(self, ctx, game='', code=''):
-        if ctx.channel.name != self.client.adminBotCommandChan:
+        if ctx.channel.name != self.client.botCommandChan:
             return
         gameNb = await self.checkCodeCmd(ctx, game, code)
         if not gameNb:
             return
-        codeChan = discord.utils.get(ctx.guild.channels, name=self.client.codesChannelName)
+        codeChan = discord.utils.get(ctx.guild.channels, name=self.client.codesChanName)
         activeRole = discord.utils.get(ctx.guild.roles, name=self.client.activeRoleName)
         msgId = await self.sendAndReactCodeAndClassMsg(ctx, game, code, codeChan, activeRole)
         if await self.sleepButCheck(60 * self.client.minutesToChoseAClass, msgId):
@@ -153,7 +153,7 @@ class CodeAndClassManagement(commands.Cog):
 
     @commands.command(name='.end')
     async def end(self, ctx, arg=''):
-        if ctx.channel.name != self.client.adminBotCommandChan:
+        if ctx.channel.name != self.client.botCommandChan:
             return
         activeRole = discord.utils.get(ctx.guild.roles, name=self.client.activeRoleName)
         fillRole = discord.utils.get(ctx.guild.roles, name=self.client.fillerRoleName)
@@ -171,7 +171,7 @@ class CodeAndClassManagement(commands.Cog):
         self.init_set()
         if arg != 'clear':
             return
-        codesChan = discord.utils.get(ctx.guild.channels, name=self.client.codesChannelName)
+        codesChan = discord.utils.get(ctx.guild.channels, name=self.client.codesChanName)
         await codesChan.purge(limit=50)
 
 

@@ -14,13 +14,6 @@ class SignUpReaction(commands.Cog):
             return
         if self.client.signUpMessage and react.message.id == self.client.signUpMessage.id:
             activeRole = discord.utils.get(react.message.guild.roles, name=self.client.activeRoleName)
-            if not self.client.fillerMsg and len(activeRole.members) >= self.client.maxActivePlayers:
-                self.client.fillerMsg = await react.message.channel.send("You can react here to be a Filler")
-                await self.client.fillerMsg.add_reaction(self.client.fillerReactEmoji)
-            if len(activeRole.members) >= self.client.maxActivePlayers:
-                await react.message.remove_reaction(self.client.signUpEmoji, user)
-                await user.send("Sorry the Active role is full for now. You can react to be a Filler")
-                return
             await user.add_roles(activeRole)
 
     @commands.Cog.listener()
@@ -31,7 +24,7 @@ class SignUpReaction(commands.Cog):
             return
         if react.message.id == self.client.signUpMessage.id:
             activeRole = discord.utils.get(react.message.guild.roles, name=self.client.activeRoleName)
-            logs = discord.utils.get(react.message.guild.channels, name=self.client.logsChan)
+            logs = discord.utils.get(react.message.guild.channels, name=self.client.logsChanName)
             await logs.send('{} removed his active role'.format(user.name))
             await user.remove_roles(activeRole)
 

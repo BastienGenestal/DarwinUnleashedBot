@@ -30,7 +30,7 @@ class StartingSet(commands.Cog):
 
     @commands.command(name='.start')
     async def start(self, ctx, mins='15'):
-        if ctx.channel.name != self.client.adminBotCommandChan:
+        if ctx.channel.name != self.client.botCommandChan:
             return
         try:
             minsNb = float(mins)

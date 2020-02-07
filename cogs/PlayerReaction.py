@@ -30,7 +30,7 @@ class PlayerReaction(commands.Cog):
 
     @commands.command(name='.init')
     async def init(self, ctx):
-        if ctx.channel.name != self.client.adminBotCommandChan:
+        if ctx.channel.name != self.client.botCommandChan:
             return
         signUpChan = discord.utils.get(ctx.guild.channels, name=self.client.signUpChanName)
         playerMessage = await signUpChan.send(
