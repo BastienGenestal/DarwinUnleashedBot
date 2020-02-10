@@ -34,28 +34,5 @@ class Utils(commands.Cog):
             return
         await ctx.channel.purge(limit=200)
 
-    def getOneConstLine(self, variableName, value):
-        return '\t\t{} = {}\n'.format(variableName, value)
-
-    @commands.command(name='.help')
-    async def help(self, ctx):
-        if ctx.channel.name != self.client.adminBotCommandChan:
-            return
-        msg = "```Constants variables:\n"
-        msg += self.getOneConstLine("minutesToChoseAClass", self.client.minutesToChoseAClass)
-        msg += self.getOneConstLine("playingRoleName", self.client.playingRoleName)
-        msg += self.getOneConstLine("activeRoleName", self.client.activeRoleName)
-        msg += self.getOneConstLine("signUpChanName", self.client.signUpChanName)
-        msg += self.getOneConstLine("adminBotCommandChan", self.client.adminBotCommandChan)
-        msg += self.getOneConstLine("codesChannelName", self.client.codesChannelName)
-        msg += self.getOneConstLine("medKitRoleName", self.client.medKitRoleName)
-        msg += '\n'
-        with open('help.txt') as f:
-            msg += f.read()
-        msg += "```"
-        await ctx.message.author.send(msg)
-        await ctx.message.delete()
-
-
 def setup(client):
     client.add_cog(Utils(client))
