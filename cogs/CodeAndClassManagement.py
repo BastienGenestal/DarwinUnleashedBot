@@ -27,7 +27,7 @@ class CodeAndClassManagement(commands.Cog):
                     return 'Grapple'
                 if idx == 2:
                     return 'Drone'
-        return ''
+        return 'None'
 
     def updateChosenClasses(self, react, user):
         className = self.translate_react_to_class(react)
