@@ -32,9 +32,9 @@ class RegionChoice(commands.Cog):
 
     @commands.command(name='.init_region_msg')
     async def init_region_msg(self, ctx):
-        if ctx.channel.name != self.client.botCommandChan:
+        if ctx.channel.id != self.client.usefullChannels["botCommandChan"].id:
             return
-        chan = discord.utils.get(ctx.guild.channels, name=self.client.selectRegionChanName)
+        chan = self.client.usefullChannels["selectRegionChan"]
         self.regionMsg = await chan.send('Select your region here!')
         for react in self.client.regionEmojis:
             await self.regionMsg.add_reaction(react)

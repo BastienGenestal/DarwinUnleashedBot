@@ -1,6 +1,6 @@
 import discord
 from discord.ext import commands
-from const import UsefullChannelNames
+from const import UsefullChannelNames, usefullRoles
 
 class Prep(commands.Cog):
     def __init__(self, client):
@@ -20,11 +20,19 @@ class Prep(commands.Cog):
                 raise self.client.MissingSomething("{} channel is missing".format(chanName))
             self.client.usefullChannels[var] = channel
 
+    async def init_roles(self):
+        for (var, roleName) in usefullRoles:
+            role = discord.utils.get(self.client.server.roles, name=roleName)
+            if not role:
+                raise self.client.MissingSomething("{} role is missing".format(roleName))
+            self.client.usefullRoles[var] = role
+
     @commands.Cog.listener()
     async def on_ready(self):
         try:
             await self.init_server()
             await self.init_channels()
+            await self.init_roles()
         except self.client.MissingSomething as e:
             print(e)
             print("The bot will shut down, please check the discord server for whatever is missing.")

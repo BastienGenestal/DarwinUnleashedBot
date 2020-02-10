@@ -3,24 +3,25 @@ ServerId = 665887600921542676
 ### Text-channels names
 
 UsefullChannelNames = {
-    ("startSetChanName", "start-a-set"),
-    ("logsChanName", "bot-commands"),
-    ("signUpChanName", "sign-up"),
+    ("startSetChan", "start-a-set"),
+    ("logsChan", "bot-commands"),
+    ("signUpChan", "sign-up"),
     ("botCommandChan", "bot-commands"),
-    ("codesChanName", "codes-and-class-reactions"),
-    ("selectRegionChanName", "about-you"),
-    ("selectPlatformChanName", "about-you"),
-    ("feedbackChanName", "feedback"),
-    ("receivedFeedbackChanName", "received-feedback"),
-    ("receivedFeedbackChanName", "receivedadzd-feedback")
+    ("codesChan", "codes-and-class-reactions"),
+    ("selectRegionChan", "about-you"),
+    ("selectPlatformChan", "about-you"),
+    ("feedbackChan", "feedback"),
+    ("receivedFeedbackChan", "received-feedback")
 }
 
 ### Roles names
 
-medKitRoleName = "Medkit"
-playingRoleName = "Players"
-activeRoleName = "Active"
-organizingRoleName = "Active-Organizer"
+usefullRoles = {
+    ("medKitRole", "Medkit"),
+    ("playingRole", "Players"),
+    ("activeRole", "Active"),
+    ("organizingRole", "Active-Organizer")
+}
 
 ### Emotes
 

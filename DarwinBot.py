@@ -11,13 +11,9 @@ class DarwinBot(commands.Bot):
         # Initializing constants
         self.ServerId = ServerId
         self.usefullChannels = {}
+        self.usefullRoles = {}
         self.platformEmojis = platformEmojis
         self.regionEmojis = regionEmojis
-
-        self.medKitRoleName = medKitRoleName
-        self.playingRoleName = playingRoleName
-        self.activeRoleName = activeRoleName
-        self.organizingRoleName = organizingRoleName
 
         self.classEmojis = classEmojis
         self.classEmojisId = classEmojisId

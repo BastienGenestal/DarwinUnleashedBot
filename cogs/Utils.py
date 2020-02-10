@@ -15,13 +15,13 @@ class Utils(commands.Cog):
 
     @commands.Cog.listener()
     async def on_member_join(self, member):
-        role = discord.utils.get(member.guild.roles, name=self.client.medKitRoleName)
+        role = self.client.usefullRoles["medKitRole"]
         await member.add_roles(role)
 
     @commands.command(name='.refresh_players')
     async def refresh_players(self, ctx):
-        signUpChan = discord.utils.get(ctx.guild.text_channels, name=self.client.signUpChanName)
-        playerRole = discord.utils.get(ctx.guild.roles, name=self.client.playingRoleName)
+        signUpChan = self.client.usefullChannels["signUpChan"]
+        playerRole = self.client.usefullRoles["playingRole"]
         msg = await signUpChan.fetch_message(self.client.medKitToPlayerMessageId)
         reaction = discord.utils.get(msg.reactions, emoji=self.client.signUpEmoji)
         async for user in reaction.users():
@@ -30,25 +30,25 @@ class Utils(commands.Cog):
 
     @commands.command(name='.clear')
     async def clear(self, ctx):
-        if ctx.channel.name != self.client.botCommandChan:
+        if ctx.channel.id != self.client.usefullChannels["botCommandChan"].id:
             return
-        await ctx.channel.purge(limit=200)
+        try:
+            await ctx.channel.purge(limit=200)
+        except Exception as e:
+            print(e)
 
     def getOneConstLine(self, variableName, value):
         return '\t\t{} = {}\n'.format(variableName, value)
 
     @commands.command(name='.help')
     async def help(self, ctx):
-        if ctx.channel.name != self.client.botCommandChan:
+        if ctx.channel.id != self.client.usefullChannels["botCommandChan"].id:
             return
         msg = "```Constants variables:\n"
-        msg += self.getOneConstLine("minutesToChoseAClass", self.client.minutesToChoseAClass)
-        msg += self.getOneConstLine("playingRoleName", self.client.playingRoleName)
-        msg += self.getOneConstLine("activeRoleName", self.client.activeRoleName)
-        msg += self.getOneConstLine("signUpChanName", self.client.signUpChanName)
-        msg += self.getOneConstLine("botCommandChan", self.client.botCommandChan)
-        msg += self.getOneConstLine("codesChanName", self.client.codesChanName)
-        msg += self.getOneConstLine("medKitRoleName", self.client.medKitRoleName)
+        for (var, chan) in self.client.usefullChannels:
+            msg += "{}\t=\t{}".format(var, chan.name)
+        for (var, role) in self.client.usefullRoles:
+            msg += "{}\t=\t{}".format(var, role.name)
         msg += '\n'
         with open('help.txt') as f:
             msg += f.read()
