@@ -41,14 +41,23 @@ class RoleCounts(commands.Cog):
             return
         if not args:
             return await self.whoisCmdError(ctx)
+
         msg = ''
-        for arg in args:
+        for idx, arg in enumerate(args):
+            if idx != 0:
+                msg += "\n"
+
             for r in ctx.guild.roles:
+                rmembers = []
                 if r.name.lower() != arg.lower():
                     continue
-                msg += "{} :\n".format(r.name)
                 for member in r.members:
-                    msg += "\t{}\n".format(member.name)
+                    rmembers.append(member.name)
+
+                msg += "{0} ({1}):\n".format(r.name, len(rmembers))
+                for name in rmembers:
+                    msg += "\t{}\n".format(name)
+
         if not msg:
             msg = "Unknown role"
         await ctx.channel.send("```{}```".format(msg))
