@@ -12,6 +12,11 @@ class DarwinBot(commands.Bot):
         self.ServerId = ServerId
         self.usefullChannels = {}
         self.usefullRoles = {}
+        self.usefullCustomEmotes = {}
+        self.usefullBasicEmotes = {}
+
+        self.Sets = []
+
         self.platformEmojis = platformEmojis
         self.regionEmojis = regionEmojis
 
@@ -33,6 +38,11 @@ class DarwinBot(commands.Bot):
 
         self.signUpMessage = None
         self.server = None
+
+        # Loading the server, channels, roles...
+        for filename in os.listdir('./init'):
+            if filename.endswith('.py'):
+                self.load_extension('init.{}'.format(filename[:-3]))
 
         # Loading cogs
         for filename in os.listdir('./cogs'):

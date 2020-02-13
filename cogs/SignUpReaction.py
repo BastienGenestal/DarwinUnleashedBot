@@ -10,6 +10,8 @@ class SignUpReaction(commands.Cog):
     async def on_reaction_add(self, react, user):
         if user == self.client.user:
             return
+        if self.client.signUpMsg and react.message.id == self.client.signUpMsg.id:
+            pass
         if react.message.channel.id != self.client.usefullChannels["signUpChan"].id or not self.client.signUpMessage:
             return
         if self.client.signUpMessage and react.message.id == self.client.signUpMessage.id:

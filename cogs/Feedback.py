@@ -6,11 +6,6 @@ class Feedback(commands.Cog):
     def __init__(self, client):
         self.client = client
 
-    @commands.command(name='.fb')
-    async def fb(self, ctx, *args):
-        if ctx.channel.id == self.client.usefullChannels["feedbackChan"].id:
-            pass
-
     @commands.Cog.listener()
     async def on_message(self, msg):
         if type(msg.channel) == discord.TextChannel and msg.channel.id == self.client.usefullChannels["feedbackChan"].id:
