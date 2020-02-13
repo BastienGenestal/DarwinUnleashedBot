@@ -8,6 +8,7 @@ UsefulChannelNames = {
     ("signUpChan", "sign-up"),
     ("botCommandChan", "bot-commands"),
     ("codesChan", "codes-and-class-reactions"),
+    ("enterCodesChan", "enter-code-here"),
     ("selectRegionChan", "about-you"),
     ("selectPlatformChan", "about-you"),
     ("startASetChan", "start-a-set"),
@@ -55,6 +56,7 @@ UsefulBasicEmotes = {
     ("signUpWinner", "🎖️"),
     ("signUpNoWinner", "⚽"),
     ("signUp", "✅"),
+    ("cancel", "❎"),
 }
 
 #("signUpWinnerEmote", "🎖"),("signUpNotWinnerEmote️e", "⚽"),

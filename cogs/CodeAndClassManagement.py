@@ -133,7 +133,7 @@ class CodeAndClassManagement(commands.Cog):
             return 0
         return gameNb
 
-    @commands.command(name='.code')
+    @commands.command(name='.code_old')
     async def code(self, ctx, game='', code=''):
         if ctx.channel.id != self.client.usefulChannels["botCommandChan"].id:
             return
