@@ -17,22 +17,25 @@ class StartingReactionsSet(commands.Cog):
         await signUpMsg.add_reaction(self.client.signUpEmoji)
         return signUpMsg
 
+    def is_it_for_winner(self, emoji):
+        if emoji == self.client.usefulBasicEmotes["signUpWinner"]:
+            return True
+        elif emoji == self.client.usefulBasicEmotes["signUpNoWinner"]:
+            return False
+        return None
+
     async def react_on_start_a_set(self, react, user):
-        forWinner = None
-        if react.emoji == self.client.usefulBasicEmotes["signUpWinner"]:
-            forWinner = True
-        elif react.emoji == self.client.usefulBasicEmotes["signUpNoWinner"]:
-            forWinner = False
-        else:
-            return
-        signUpMsg = await self.create_sign_up_msg(react, user)
+        forWinner = self.is_it_for_winner(react.emoji)
+        new_set = None
         try:
-            new_set = GameSet(self.client, user, forWinner, signUpMsg)
-            await new_set.director.add_roles(self.client.usefulRoles["organizingRole"])
+            new_set = await GameSet.create(GameSet(), self.client, user, forWinner)
         except Exception as e:
             await react.message.remove_reaction(react.emoji, user)
-            await signUpMsg.delete()
             print(e)
+        if not new_set:
+            return
+        new_set.signUpMsg = await self.create_sign_up_msg(react, user)
+        print(new_set.director, new_set.forWinner, new_set.bracket, new_set.signUpMsg)
 
     async def react_on_sign_up(self, react, user):
         await user.add_roles(self.client.usefulRoles["activeRole"])
