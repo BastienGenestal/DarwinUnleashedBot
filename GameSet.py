@@ -1,18 +1,26 @@
-
 class GameSet:
     def __init__(self, client, Director, forWinner, signUpMsg):
         self.director = Director
         self.forWinner = forWinner
         self.signUpMsg = signUpMsg
         self.bracket = None
+        self.init_set(client)
+
+    def init_bracket(self, client):
         for role in client.BracketRoles:
-            if not len(role.members):
-                self.bracket = role
+            if not len(client.BracketRoles[role].members):
+                self.bracket = client.BracketRoles[role]
                 break
         if not self.bracket:
-            print("No Free Bracket")
             raise Exception("No Free Bracket")
 
+    def init_director(self, client):
+        if self.director in client.usefulRoles["organizingRole"].members:
+            raise Exception("Director already active")
+
+    def init_set(self, client):
+        self.init_bracket(client)
+        self.init_director(client)
 
     def is_player_already_in_a_bracket(self, player):
         for role in player.roles:

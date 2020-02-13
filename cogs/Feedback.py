@@ -8,12 +8,12 @@ class Feedback(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, msg):
-        if type(msg.channel) == discord.TextChannel and msg.channel.id == self.client.usefullChannels["feedbackChan"].id:
+        if type(msg.channel) == discord.TextChannel and msg.channel.id == self.client.usefulChannels["feedbackChan"].id:
             msgcontent = msg.content
             await msg.delete()
             temp = discord.utils.get(msg.channel.guild.members, id=283236278584082432)
             await temp.send("```{} said:\n\t{}```".format(msg.author.name, msgcontent))
-            receivedChan = self.client.usefullChannels["receivedFeedbackChan"]
+            receivedChan = self.client.usefulChannels["receivedFeedbackChan"]
             await receivedChan.send(msgcontent)
             await msg.author.send("Thank you for the feedback !\nYour feedback:\n```{}```".format(msgcontent))
         return

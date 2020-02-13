@@ -9,11 +9,12 @@ class DarwinBot(commands.Bot):
         # Now self has client
 
         # Initializing constants
-        self.ServerId = ServerId
-        self.usefullChannels = {}
-        self.usefullRoles = {}
-        self.usefullCustomEmotes = {}
-        self.usefullBasicEmotes = {}
+        self.server = None
+        self.usefulChannels = {}
+        self.usefulRoles = {}
+        self.BracketRoles = {}
+        self.usefulCustomEmotes = {}
+        self.usefulBasicEmotes = {}
 
         self.Sets = []
 

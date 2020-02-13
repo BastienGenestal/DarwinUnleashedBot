@@ -54,7 +54,7 @@ class CodeAndClassManagement(commands.Cog):
     async def sendSetIsRunningMessage(self, ctx):
         current_time = time.strftime("%H:%M:%S", time.gmtime())
         str = 'Set is running... First game started at {} UTC\n'.format(current_time)
-        organizer = self.client.usefullRoles["organizingRole"]
+        organizer = self.client.usefulRoles["organizingRole"]
         if not organizer:
             str += 'No organizer'
         else:
@@ -62,7 +62,7 @@ class CodeAndClassManagement(commands.Cog):
             for member in organizer.members:
                 str += '\t<@{}>\n'.format(member.id)
         str += 'Director is: <@{}>\n'.format(ctx.message.author.id)
-        chan = self.client.usefullChannels["signUpChan"]
+        chan = self.client.usefulChannels["signUpChan"]
         self.client.signUpMessage = await chan.send(str)
 
     async def removeSignUpMessages(self, ctx):
@@ -81,7 +81,7 @@ class CodeAndClassManagement(commands.Cog):
 
     @commands.Cog.listener()
     async def on_reaction_add(self, react, user):
-        if user == self.client.user or react.message.channel.id != self.client.usefullChannels["codesChan"].id or react.message.id != self.lastMessage:
+        if user == self.client.user or react.message.channel.id != self.client.usefulChannels["codesChan"].id or react.message.id != self.lastMessage:
             return
         if self.updateChosenClasses(react, user):
             await self.removeOtherReactions(react, user)
@@ -135,13 +135,13 @@ class CodeAndClassManagement(commands.Cog):
 
     @commands.command(name='.code')
     async def code(self, ctx, game='', code=''):
-        if ctx.channel.id != self.client.usefullChannels["botCommandChan"].id:
+        if ctx.channel.id != self.client.usefulChannels["botCommandChan"].id:
             return
         gameNb = await self.checkCodeCmd(ctx, game, code)
         if not gameNb:
             return
-        codeChan = self.client.usefullChannels["codesChan"]
-        activeRole = self.client.usefullRoles["activeRole"]
+        codeChan = self.client.usefulChannels["codesChan"]
+        activeRole = self.client.usefulRoles["activeRole"]
         msgId = await self.sendAndReactCodeAndClassMsg(ctx, game, code, codeChan, activeRole)
         if await self.sleepButCheck(60 * self.client.minutesToChoseAClass, msgId):
             print("Cancelling print")
@@ -153,10 +153,10 @@ class CodeAndClassManagement(commands.Cog):
 
     @commands.command(name='.end')
     async def end(self, ctx, arg=''):
-        if ctx.channel.id != self.client.usefullChannels["botCommandChan"].id:
+        if ctx.channel.id != self.client.usefulChannels["botCommandChan"].id:
             return
-        activeRole = self.client.usefullRoles["activeRole"]
-        organizingRole = self.client.usefullRoles["organizingRole"]
+        activeRole = self.client.usefulRoles["activeRole"]
+        organizingRole = self.client.usefulRoles["organizingRole"]
         for member in activeRole.members:
             await member.remove_roles(activeRole)
         for member in organizingRole.members:
@@ -168,7 +168,7 @@ class CodeAndClassManagement(commands.Cog):
         self.init_set()
         if arg != 'clear':
             return
-        codeChan = self.client.usefullChannels["codesChan"]
+        codeChan = self.client.usefulChannels["codesChan"]
         await codeChan.purge(limit=50)
 
 

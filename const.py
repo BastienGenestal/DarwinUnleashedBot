@@ -2,7 +2,7 @@ ServerId = 665887600921542676
 
 ### Text-channels names
 
-UsefullChannelNames = {
+UsefulChannelNames = {
     ("startSetChan", "start-a-set"),
     ("logsChan", "bot-commands"),
     ("signUpChan", "sign-up"),
@@ -17,11 +17,20 @@ UsefullChannelNames = {
 
 ### Roles names
 
-UsefullRoles = {
+UsefulRoles = {
     ("medKitRole", "Medkit"),
     ("playerRole", "Players"),
     ("activeRole", "Active"),
     ("organizingRole", "Active-Organizer")
+}
+
+BracketRoles = {
+    ("A", "Bracket A"),
+    ("B", "Bracket B"),
+    ("C", "Bracket C"),
+    ("D", "Bracket D"),
+    ("E", "Bracket E"),
+    ("F", "Bracket F")
 }
 
 ### Emotes
@@ -35,14 +44,14 @@ regions = ["EU",  "NA-East", "SA", "AP(Sydney)", "NA-West", "AP(Singapore)"]
 platformEmojis =  ["🖱️", "❌", "🎮"]
 platforms = ["PC", "Xbox", "PS4"]
 
-UsefullCustomEmotes = {
+UsefulCustomEmotes = {
     ("unleashed", "unleashed"),
     ("wings", "wings"),
     ("grapple", "grapple"),
     ("birdrone", "birdrone"),
 }
 
-UsefullBasicEmotes = {
+UsefulBasicEmotes = {
     ("signUpWinner", "🎖️"),
     ("signUpNoWinner", "⚽"),
     ("signUp", "✅"),
@@ -70,7 +79,7 @@ maxActivePlayers = 10
         guild = discord.utils.get(self.client.guilds, id=event.guild_id)
         if guild != self.client.server:
             return False
-        startASetChan = self.client.usefullChannels["startASetChan"]
+        startASetChan = self.client.usefulChannels["startASetChan"]
         if not event.emoji:
             return False
         return event.channel_id == startASetChan.id and event.emoji.name == self.client.signUpEmoji
@@ -88,7 +97,7 @@ maxActivePlayers = 10
 
     @commands.command(name='.start')
     async def start(self, ctx, mins='15'):
-        if ctx.channel.id != self.client.usefullChannels["botCommandChan"].id:
+        if ctx.channel.id != self.client.usefulChannels["botCommandChan"].id:
             return
         try:
             minsNb = float(mins)
@@ -96,8 +105,8 @@ maxActivePlayers = 10
             return await self.start_cmd_error(ctx)
         self.client.signUpCmdMsg = ctx.message
         await self.client.signUpCmdMsg.add_reaction(self.client.signUpEmoji)
-        sign_up_chan = self.client.usefullChannels["signUpChan"]
-        players = self.client.usefullRoles["playerRole"]
+        sign_up_chan = self.client.usefulChannels["signUpChan"]
+        players = self.client.usefulRoles["playerRole"]
         if minsNb == 0:
             self.client.signUpMessage = await sign_up_chan.send('{} games starting in 15 minutes, react to participate !'.format(players.mention))
             await self.client.signUpMessage.add_reaction(self.client.signUpEmoji)

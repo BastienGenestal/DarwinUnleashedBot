@@ -12,21 +12,21 @@ class SignUpReaction(commands.Cog):
             return
         if self.client.signUpMsg and react.message.id == self.client.signUpMsg.id:
             pass
-        if react.message.channel.id != self.client.usefullChannels["signUpChan"].id or not self.client.signUpMessage:
+        if react.message.channel.id != self.client.usefulChannels["signUpChan"].id or not self.client.signUpMessage:
             return
         if self.client.signUpMessage and react.message.id == self.client.signUpMessage.id:
-            activeRole = self.client.usefullRoles['activeRole']
+            activeRole = self.client.usefulRoles['activeRole']
             await user.add_roles(activeRole)
 
     @commands.Cog.listener()
     async def on_reaction_remove(self, react, user):
         if user == self.client.user:
             return
-        if react.message.channel.id != self.client.usefullChannels["signUpChan"].id or not self.client.signUpMessage:
+        if react.message.channel.id != self.client.usefulChannels["signUpChan"].id or not self.client.signUpMessage:
             return
         if react.message.id == self.client.signUpMessage.id:
-            activeRole = self.client.usefullRoles['activeRole']
-            logs = self.client.usefullChannels['logsChan']
+            activeRole = self.client.usefulRoles['activeRole']
+            logs = self.client.usefulChannels['logsChan']
             await logs.send('{} removed his active role'.format(user.name))
             await user.remove_roles(activeRole)
 
