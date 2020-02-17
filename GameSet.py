@@ -33,6 +33,7 @@ class GameSet:
 
     async def init_director(self, client):
         if self.director in client.usefulRoles["organizingRole"].members:
+            await self.director.send('You are already active.')
             raise Exception("Director already active")
         await self.director.add_roles(client.usefulRoles["organizingRole"])
 
