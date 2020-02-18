@@ -34,7 +34,7 @@ class StartingReactionsSet(commands.Cog):
             print(e)
         if not new_set:
             return
-        new_set.signUpMsg = await self.create_sign_up_msg(react, user)
+        # TODO: Timer blocks the code in GameSet.create()
         print(new_set.director, new_set.forWinner, new_set.bracket, new_set.signUpMsg)
 
     async def react_on_sign_up(self, react, user):
