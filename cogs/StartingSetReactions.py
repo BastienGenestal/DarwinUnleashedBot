@@ -26,16 +26,13 @@ class StartingReactionsSet(commands.Cog):
 
     async def react_on_start_a_set(self, react, user):
         forWinner = self.is_it_for_winner(react.emoji)
-        new_set = None
         try:
             new_set = await GameSet.create(GameSet(), self.client, user, forWinner)
+            self.client.Sets.append(new_set)
+            await new_set.await_task()
         except Exception as e:
             await react.message.remove_reaction(react.emoji, user)
             print(e)
-        if not new_set:
-            return
-        # TODO: Timer blocks the code in GameSet.create()
-        print(new_set.director, new_set.forWinner, new_set.bracket, new_set.signUpMsg)
 
     async def react_on_sign_up(self, react, user):
         await user.add_roles(self.client.usefulRoles["activeRole"])

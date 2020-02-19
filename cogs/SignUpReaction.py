@@ -1,4 +1,3 @@
-import discord
 from discord.ext import commands
 
 
@@ -8,15 +7,11 @@ class SignUpReaction(commands.Cog):
 
     @commands.Cog.listener()
     async def on_reaction_add(self, react, user):
-        if user == self.client.user:
+        if user.bot:
             return
-        if self.client.signUpMsg and react.message.id == self.client.signUpMsg.id:
-            pass
-        if react.message.channel.id != self.client.usefulChannels["signUpChan"].id or not self.client.signUpMessage:
-            return
-        if self.client.signUpMessage and react.message.id == self.client.signUpMessage.id:
-            activeRole = self.client.usefulRoles['activeRole']
-            await user.add_roles(activeRole)
+        for set in self.client.Sets:
+            if set.signUpMsg and react.message.id == set.signUpMsg.id:
+                await set.add_player(self.client, user)
 
     @commands.Cog.listener()
     async def on_reaction_remove(self, react, user):
