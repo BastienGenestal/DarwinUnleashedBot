@@ -13,6 +13,8 @@ class GameSet:
         self.timeStartedGame = None
         self.cancelled = False
 
+        self.isFull = False
+
         self.task = None
         pass
 
@@ -33,9 +35,13 @@ class GameSet:
         self.bracket = None
         await self.init_set(client)
         self.task = asyncio.create_task(
-            self.sign_up_ends(15 * 60)
+            self.delay_before_sign_up_ends(1, client)
         )
         return self
+
+    async def delay_before_sign_up_ends(self, minutes, client):
+        await asyncio.sleep(minutes * 60)
+        await self.sign_up_ends(client, '{} minutes passed.'.format(minutes))
 
     def init_bracket(self, client):
         for role in client.BracketRoles:
@@ -55,9 +61,14 @@ class GameSet:
         await self.director.send("Set cancelled")
         await self.director.remove_roles(client.usefulRoles['organizingRole'])
 
-    async def sign_up_ends(self, delay):
-        await asyncio.sleep(delay)
-        await self.signUpMsg.delete()
+    async def sign_up_ends(self, client, why):
+        if self.signUpMsg:
+            await self.signUpMsg.delete()
+            self.signUpMsg = None
+            await client.usefulChannels['startASetChan'].send(
+                '{} Players joined\n'
+                '{}\n'
+                'The set should start now.'.format(len(self.bracket.members), why))
 
     async def await_task(self):
         return await self.task
@@ -66,6 +77,9 @@ class GameSet:
         self.init_bracket(client)
         await self.init_director(client)
         await self.create_sign_up_msg(client)
+
+    async def complete(self, client):
+        await self.sign_up_ends(client, '{} is full.'.format(self.bracket.name))
 
     @staticmethod
     def is_player_already_in_a_bracket(player):
@@ -84,5 +98,10 @@ class GameSet:
             return
         if self.is_bracket_full():
             return
-        await player.add_roles(client.usefulRoles['activeRole'])
-        await player.add_roles(self.bracket)
+        await player.add_roles(client.usefulRoles['activeRole'], self.bracket)
+        self.isFull = len(self.bracket.members) >= client.MAX_NB_PLAYER_PER_GAME
+
+    async def remove_player(self, client, player):
+        await player.remove_roles(client.usefulRoles['activeRole'], self.bracket)
+        self.isFull = len(self.bracket.members) >= client.MAX_NB_PLAYER_PER_GAME
+

@@ -73,8 +73,7 @@ platformSelectionMessage = 670262105060147207
 
 minutesToChoseAClass = 3
 
-
-maxActivePlayers = 10
+MAX_NB_PLAYER_PER_GAME = 10
 
 """
     def isItStartASetChan(self, event):

@@ -26,7 +26,6 @@ class DarwinBot(commands.Bot):
         self.signUpEmoji = signUpEmoji
 
         self.minutesToChoseAClass = minutesToChoseAClass
-        self.maxActivePlayers = maxActivePlayers
 
         self.regions = regions
         self.platforms = platforms
@@ -35,10 +34,11 @@ class DarwinBot(commands.Bot):
         self.regionSelectionMessageId = regionSelectionMessage
         self.platformSelectionMessageId = platformSelectionMessage
 
+        self.MAX_NB_PLAYER_PER_GAME = MAX_NB_PLAYER_PER_GAME
+
         # Non - constant variable initialization
 
         self.signUpMessage = None
-        self.server = None
 
         # Loading the server, channels, roles...
         for filename in os.listdir('./init'):
