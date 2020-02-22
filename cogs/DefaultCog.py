@@ -1,4 +1,3 @@
-import discord
 from discord.ext import commands
 
 
@@ -13,7 +12,6 @@ class DefaultCog(commands.Cog):
     @commands.command(name='.ping')
     async def ping(self, ctx):
         await ctx.channel.send("pong")
-
 
 def setup(client):
     client.add_cog(DefaultCog(client))
