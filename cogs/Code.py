@@ -22,6 +22,8 @@ class CodeCog(commands.Cog):
     async def on_reaction_add(self, react, user):
         if user.bot:
             return
+        if react == self.client.usefulBasicEmotes["cancel"] and react.message.channel == self.client.usefulChannels['startSetChan']:
+            pass
 
 
     @commands.Cog.listener()
