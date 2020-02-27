@@ -12,9 +12,15 @@ class CodeCog(commands.Cog):
         code_regex = r'[A-Z0-9]{4}'
         return bool(re.match(code_regex, code))
 
-    def get_set_object(self, author):
+    def get_set_object(self, author): # TODO: get_set_object from DIRECTOR/BRACKET/LAST_CMD_MSG/...
         for set in self.client.Sets:
             if set.director.id == author.id:
+                return set
+        return None
+
+    def get_set_object_public_msg(self, last_code_public_msg): # TODO: get_set_object from DIRECTOR/BRACKET/LAST_CMD_MSG/...
+        for set in self.client.Sets:
+            if set.last_code_public_msg.id == last_code_public_msg.id:
                 return set
         return None
 
@@ -22,9 +28,17 @@ class CodeCog(commands.Cog):
     async def on_reaction_add(self, react, user):
         if user.bot:
             return
-        if react == self.client.usefulBasicEmotes["cancel"] and react.message.channel == self.client.usefulChannels['startSetChan']:
-            pass
-
+        if react != self.client.usefulBasicEmotes["cancel"] or react.message.channel != self.client.usefulChannels['startSetChan']:
+            return
+        rightSet = self.get_set_object(react.message.author)
+        if rightSet:
+            await rightSet.last_code_cmd.delete()
+            await rightSet.last_code_public_msg.delete()
+            return
+        rightSet = self.get_set_object_public_msg(react.message)
+        if rightSet:
+            await user.remove_roles(self.client.usefulRoles['activeRole'], rightSet.bracket)
+        return
 
     @commands.Cog.listener()
     async def on_message(self, msg):
@@ -43,7 +57,6 @@ class CodeCog(commands.Cog):
             await self.post_code(rightSet, msg.content)
             await msg.add_reaction(self.client.usefulBasicEmotes["cancel"])
             rightSet.last_code_cmd = msg
-            # TODO: IF REACTION ON THIS MESSAGE REMOVE THIS MSG + CODE MSG
             return
         return await msg.channel.send("Invalid Darwin Project code : **{}**.".format(msg.content))
 
