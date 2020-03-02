@@ -28,6 +28,22 @@ class Utils(commands.Cog):
             if playerRole not in user.roles:
                 await user.add_roles(playerRole)
 
+    @commands.command(name='.end')
+    async def end(self, ctx, arg=''):
+        if ctx.channel.id != self.client.usefulChannels["botCommandChan"].id:
+            return
+        activeRole = self.client.usefulRoles["activeRole"]
+        organizingRole = self.client.usefulRoles["organizingRole"]
+        for member in activeRole.members:
+            await member.remove_roles(activeRole)
+        for member in organizingRole.members:
+            await member.remove_roles(organizingRole)
+        if arg != 'clear':
+            return
+        codeChan = self.client.usefulChannels["codesChan"]
+        await codeChan.purge(limit=50)
+
+
     @commands.command(name='.clear')
     async def clear(self, ctx):
         if ctx.channel.name != self.client.usefulChannels['startSetChan'] and ctx.channel.name != self.client.usefulChannels['botCommandChan']:
