@@ -64,6 +64,7 @@ class CodeCog(commands.Cog):
             await self.post_code(rightSet, msg.content)
             await msg.add_reaction(self.client.usefulBasicEmotes["cancel"])
             rightSet.last_code_cmd = msg
+            rightSet.task.cancel()
             return
         return await msg.channel.send("Invalid Darwin Project code : **{}**.".format(msg.content))
 
