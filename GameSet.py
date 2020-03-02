@@ -36,7 +36,8 @@ class GameSet:
         self.forWinner = forWinner
         self.bracket = None
         await self.init_set(client)
-        self.task = asyncio.create_task(
+        loop = asyncio.get_event_loop()
+        self.task = loop.create_task(
             self.delay_before_sign_up_ends(15, client)
         )
         return self
