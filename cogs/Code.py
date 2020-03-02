@@ -49,7 +49,7 @@ class CodeCog(commands.Cog):
     async def on_message(self, msg):
         if msg.author.bot:
             return
-        if msg.channel.id != self.client.usefulChannels["startSetChan"].id:
+        if msg.channel.id != self.client.usefulChannels["startASetChan"].id:
             return
         rightSet = self.get_set_object(msg.author)
         if not rightSet:
