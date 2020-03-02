@@ -1,4 +1,4 @@
-ServerId = 665887600921542676
+ServerId = 669299962336772126
 
 ### Text-channels names
 
