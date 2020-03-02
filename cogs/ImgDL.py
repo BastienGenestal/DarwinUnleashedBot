@@ -24,7 +24,7 @@ class ImgDL(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, msg):
-        if msg.channel != self.client.usefulChannels['enterCodesChan']:
+        if msg.channel != self.client.usefulChannels['startASetChan']:
             return
         title = msg.content
         if not title:
