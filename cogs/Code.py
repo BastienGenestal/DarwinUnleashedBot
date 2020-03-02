@@ -2,6 +2,8 @@ import discord
 from discord.ext import commands
 import re
 
+from const_messages import CODE_MESSAGE
+
 
 class CodeCog(commands.Cog):
     def __init__(self, client):
@@ -67,7 +69,8 @@ class CodeCog(commands.Cog):
 
     async def post_code(self, rightSet, code=''):
         code_channel = self.client.usefulChannels["codesChan"]
-        code_msg = await code_channel.send("**{}**\nCode : **{}**".format(rightSet.bracket.mention, code))
+
+        code_msg = await code_channel.send(CODE_MESSAGE.format(rightSet.bracket.mention, code))
         await code_msg.add_reaction(self.client.usefulBasicEmotes["cancel"])
         rightSet.last_code_public_msg = code_msg
         if rightSet.forFun:
