@@ -11,10 +11,12 @@ class GameSet:
         self.bracket = None
         self.timeStartedSignUps = None
         self.timeStartedGame = None
+
+        self.last_fun_code_public_msg = None
+
         self.cancelled = False
-
+        self.forFun = True
         self.isFull = False
-
         self.task = None
         pass
 
@@ -35,7 +37,7 @@ class GameSet:
         self.bracket = None
         await self.init_set(client)
         self.task = asyncio.create_task(
-            self.delay_before_sign_up_ends(1, client)
+            self.delay_before_sign_up_ends(15, client)
         )
         return self
 

@@ -7,15 +7,11 @@ class ActiveRoleCount(commands.Cog):
 
     @commands.Cog.listener()
     async def on_member_update(self, before, after):
-        # TODO CHECK IF rs<10
-        wasActive = self.client.usefulRoles['activeRole'] in before.roles
-        isActive = self.client.usefulRoles['activeRole'] in after.roles
-        if wasActive != isActive:
-            if isActive: # Si son bracket est plein
-#                if len(self.client.usefulRoles['activeRole'].members) > 9:
-                pass
-            else:
-                pass
+        for Set in self.client.Sets:
+            wasActive = Set.bracket in before.roles
+            isActive = Set.bracket in after.roles
+            if wasActive != isActive:
+                Set.forFun = (len(Set.bracket.members) < 10)
 
 def setup(client):
     client.add_cog(ActiveRoleCount(client))

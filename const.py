@@ -4,6 +4,7 @@ ServerId = 665887600921542676
 
 UsefulChannelNames = {
     ("startSetChan", "start-a-set"),
+    ("funGames", "fun-games"),
     ("logsChan", "bot-commands"),
     ("signUpChan", "sign-up"),
     ("botCommandChan", "bot-commands"),
@@ -20,6 +21,7 @@ UsefulChannelNames = {
 
 UsefulRoles = {
     ("medKitRole", "Medkit"),
+    ("winnerRole", "Winner"),
     ("playerRole", "Players"),
     ("activeRole", "Active"),
     ("organizingRole", "Active-Organizer")

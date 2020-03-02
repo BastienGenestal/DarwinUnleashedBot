@@ -20,7 +20,7 @@ class CodeCog(commands.Cog):
 
     def get_set_object_public_msg(self, last_code_public_msg): # TODO: get_set_object from DIRECTOR/BRACKET/LAST_CMD_MSG/...
         for set in self.client.Sets:
-            if set.last_code_public_msg.id == last_code_public_msg.id:
+            if set.last_code_public_msg and set.last_code_public_msg.id == last_code_public_msg.id:
                 return set
         return None
 
@@ -28,16 +28,21 @@ class CodeCog(commands.Cog):
     async def on_reaction_add(self, react, user):
         if user.bot:
             return
-        if react != self.client.usefulBasicEmotes["cancel"] or react.message.channel != self.client.usefulChannels['startSetChan']:
+        if react.emoji != self.client.usefulBasicEmotes["cancel"]:
             return
-        rightSet = self.get_set_object(react.message.author)
-        if rightSet:
-            await rightSet.last_code_cmd.delete()
-            await rightSet.last_code_public_msg.delete()
-            return
-        rightSet = self.get_set_object_public_msg(react.message)
-        if rightSet:
-            await user.remove_roles(self.client.usefulRoles['activeRole'], rightSet.bracket)
+        if react.message.channel == self.client.usefulChannels['startSetChan']:
+            rightSet = self.get_set_object(react.message.author)
+            if rightSet:
+                await rightSet.last_code_cmd.delete()
+                await rightSet.last_code_public_msg.delete()
+                if rightSet.last_fun_code_public_msg:
+                    await rightSet.last_fun_code_public_msg.delete()
+                return
+        elif react.message.channel == self.client.usefulChannels['codesChan']:
+            rightSet = self.get_set_object_public_msg(react.message)
+            if rightSet:
+                await rightSet.director.send('{} left the set. ({})'.format(user.name, rightSet.bracket))
+                return await user.remove_roles(self.client.usefulRoles['activeRole'], rightSet.bracket)
         return
 
     @commands.Cog.listener()
@@ -63,10 +68,13 @@ class CodeCog(commands.Cog):
     async def post_code(self, rightSet, code=''):
         code_channel = self.client.usefulChannels["codesChan"]
         code_msg = await code_channel.send("**{}**\nCode : **{}**".format(rightSet.bracket.mention, code))
-        # 'negative_squared_cross_mark'
-        # TODO: IF REACTION ON THIS MESSAGE REMOVE ACTIVE ROLE AND CHECK rs < 10...
         await code_msg.add_reaction(self.client.usefulBasicEmotes["cancel"])
         rightSet.last_code_public_msg = code_msg
+        if rightSet.forFun:
+            fun_code_msg = await self.client.usefulChannels['funGames'].send("Code : **{}**\n to join {} {}/10 players".format(code, rightSet.bracket.name, len(rightSet.bracket.members)))
+            await fun_code_msg.add_reaction(self.client.usefulBasicEmotes["signUp"])
+            rightSet.last_fun_code_public_msg = fun_code_msg
+
 
 
 def setup(client):
