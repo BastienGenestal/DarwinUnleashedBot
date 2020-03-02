@@ -15,13 +15,13 @@ class Utils(commands.Cog):
 
     @commands.Cog.listener()
     async def on_member_join(self, member):
-        role = discord.utils.get(member.guild.roles, name=self.client.medKitRoleName)
+        role = self.client.usefulRoles["medKitRole"]
         await member.add_roles(role)
 
     @commands.command(name='.refresh_players')
     async def refresh_players(self, ctx):
-        signUpChan = discord.utils.get(ctx.guild.text_channels, name=self.client.signUpChanName)
-        playerRole = discord.utils.get(ctx.guild.roles, name=self.client.playingRoleName)
+        signUpChan = self.client.usefulChannels["signUpChan"]
+        playerRole = self.client.usefulRoles["playerRole"]
         msg = await signUpChan.fetch_message(self.client.medKitToPlayerMessageId)
         reaction = discord.utils.get(msg.reactions, emoji=self.client.signUpEmoji)
         async for user in reaction.users():
@@ -32,7 +32,10 @@ class Utils(commands.Cog):
     async def clear(self, ctx):
         if ctx.channel.name != self.client.adminBotCommandChan:
             return
-        await ctx.channel.purge(limit=200)
+        try:
+            await ctx.channel.purge(limit=200)
+        except Exception as e:
+            print(e)
 
 def setup(client):
     client.add_cog(Utils(client))

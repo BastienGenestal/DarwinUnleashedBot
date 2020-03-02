@@ -27,7 +27,7 @@ class CodeAndClassManagement(commands.Cog):
                     return 'Grapple'
                 if idx == 2:
                     return 'Drone'
-        return ''
+        return 'None'
 
     def updateChosenClasses(self, react, user):
         className = self.translate_react_to_class(react)
@@ -54,7 +54,7 @@ class CodeAndClassManagement(commands.Cog):
     async def sendSetIsRunningMessage(self, ctx):
         current_time = time.strftime("%H:%M:%S", time.gmtime())
         str = 'Set is running... First game started at {} UTC\n'.format(current_time)
-        organizer = discord.utils.get(ctx.channel.guild.roles, name=self.client.organizingRoleName)
+        organizer = self.client.usefulRoles["organizingRole"]
         if not organizer:
             str += 'No organizer'
         else:
@@ -62,7 +62,7 @@ class CodeAndClassManagement(commands.Cog):
             for member in organizer.members:
                 str += '\t<@{}>\n'.format(member.id)
         str += 'Director is: <@{}>\n'.format(ctx.message.author.id)
-        chan = discord.utils.get(ctx.guild.channels, name=self.client.signUpChanName)
+        chan = self.client.usefulChannels["signUpChan"]
         self.client.signUpMessage = await chan.send(str)
 
     async def removeSignUpMessages(self, ctx):
@@ -81,7 +81,7 @@ class CodeAndClassManagement(commands.Cog):
 
     @commands.Cog.listener()
     async def on_reaction_add(self, react, user):
-        if user == self.client.user or react.message.channel.name != self.client.codesChannelName or react.message.id != self.lastMessage:
+        if user == self.client.user or react.message.channel.id != self.client.usefulChannels["codesChan"].id or react.message.id != self.lastMessage:
             return
         if self.updateChosenClasses(react, user):
             await self.removeOtherReactions(react, user)
@@ -133,15 +133,15 @@ class CodeAndClassManagement(commands.Cog):
             return 0
         return gameNb
 
-    @commands.command(name='.code')
+    @commands.command(name='.code_old')
     async def code(self, ctx, game='', code=''):
-        if ctx.channel.name != self.client.adminBotCommandChan:
+        if ctx.channel.id != self.client.usefulChannels["botCommandChan"].id:
             return
         gameNb = await self.checkCodeCmd(ctx, game, code)
         if not gameNb:
             return
-        codeChan = discord.utils.get(ctx.guild.channels, name=self.client.codesChannelName)
-        activeRole = discord.utils.get(ctx.guild.roles, name=self.client.activeRoleName)
+        codeChan = self.client.usefulChannels["codesChan"]
+        activeRole = self.client.usefulRoles["activeRole"]
         msgId = await self.sendAndReactCodeAndClassMsg(ctx, game, code, codeChan, activeRole)
         if await self.sleepButCheck(60 * self.client.minutesToChoseAClass, msgId):
             print("Cancelling print")
@@ -153,15 +153,12 @@ class CodeAndClassManagement(commands.Cog):
 
     @commands.command(name='.end')
     async def end(self, ctx, arg=''):
-        if ctx.channel.name != self.client.adminBotCommandChan:
+        if ctx.channel.id != self.client.usefulChannels["botCommandChan"].id:
             return
-        activeRole = discord.utils.get(ctx.guild.roles, name=self.client.activeRoleName)
-        fillRole = discord.utils.get(ctx.guild.roles, name=self.client.fillerRoleName)
-        organizingRole = discord.utils.get(ctx.guild.roles, name=self.client.organizingRoleName)
+        activeRole = self.client.usefulRoles["activeRole"]
+        organizingRole = self.client.usefulRoles["organizingRole"]
         for member in activeRole.members:
             await member.remove_roles(activeRole)
-        for member in fillRole.members:
-            await member.remove_roles(fillRole)
         for member in organizingRole.members:
             await member.remove_roles(organizingRole)
         if self.client.signUpMessage:
@@ -171,8 +168,8 @@ class CodeAndClassManagement(commands.Cog):
         self.init_set()
         if arg != 'clear':
             return
-        codesChan = discord.utils.get(ctx.guild.channels, name=self.client.codesChannelName)
-        await codesChan.purge(limit=50)
+        codeChan = self.client.usefulChannels["codesChan"]
+        await codeChan.purge(limit=50)
 
 
 def setup(client):

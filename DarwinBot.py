@@ -9,60 +9,56 @@ class DarwinBot(commands.Bot):
         # Now self has client
 
         # Initializing constants
-        self.adminBotCommandChan = adminBotCommandChan
-        self.signUpChanName = signUpChanName
-        self.codesChannelName = codesChannelName
-        self.selectPlatform = selectPlatform
-        self.selectRegion = selectRegion
+        self.server = None
+        self.usefulChannels = {}
+        self.usefulRoles = {}
+        self.BracketRoles = {}
+        self.usefulCustomEmotes = {}
+        self.usefulBasicEmotes = {}
+
+        self.Sets = []
+
         self.platformEmojis = platformEmojis
         self.regionEmojis = regionEmojis
-
-        self.medKitRoleName = medKitRoleName
-        self.playingRoleName = playingRoleName
-        self.activeRoleName = activeRoleName
-        self.fillerRoleName = fillerRoleName
-        self.organizingRoleName = organizingRoleName
-        self.logsChan = logsChan
 
         self.classEmojis = classEmojis
         self.classEmojisId = classEmojisId
         self.signUpEmoji = signUpEmoji
-        self.fillerReactEmoji = fillerReactEmoji
 
         self.minutesToChoseAClass = minutesToChoseAClass
-        self.maxActivePlayers = maxActivePlayers
 
         self.regions = regions
         self.platforms = platforms
-        self.feedback = feedback
-        self.receivedFeedback = receivedFeedback
 
         self.medKitToPlayerMessageId = medKitToPlayerMessageId
         self.regionSelectionMessageId = regionSelectionMessage
         self.platformSelectionMessageId = platformSelectionMessage
 
+        self.MAX_NB_PLAYER_PER_GAME = MAX_NB_PLAYER_PER_GAME
+
+        # Non - constant variable initialization
+
         self.signUpMessage = None
+
+        # Loading the server, channels, roles...
+        for filename in os.listdir('./init'):
+            if filename.endswith('.py'):
+                self.load_extension('init.{}'.format(filename[:-3]))
 
         # Loading cogs
         for filename in os.listdir('./cogs'):
             if filename.endswith('.py'):
                 self.load_extension('cogs.{}'.format(filename[:-3]))
 
-    @commands.command()
-    async def load(self, ext):
-        for filename in os.listdir('./cogs'):
-            if filename == ext:
-                self.load_extension('cogs.{}'.format(filename[:-3]))
+    class MissingSomething(Exception):
+        def __init__(self, *args):
+            if args:
+                self.message = args[0]
+            else:
+                self.message = None
 
-    @commands.command()
-    async def unload(self, ext):
-        for filename in os.listdir('./cogs'):
-            if filename == ext:
-                self.unload_extension('cogs.{}'.format(filename[:-3]))
-
-    @commands.command()
-    async def reload(self, ext):
-        for filename in os.listdir('./cogs'):
-            if filename == ext:
-                self.unload_extension('cogs.{}'.format(filename[:-3]))
-                self.load_extension('cogs.{}'.format(filename[:-3]))
+        def __str__(self):
+            if self.message:
+                return 'MissingSomething, {0} '.format(self.message)
+            else:
+                return 'MissingSomething has been raised'

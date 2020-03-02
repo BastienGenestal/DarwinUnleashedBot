@@ -1,4 +1,3 @@
-import discord
 from discord.ext import commands
 
 
@@ -6,35 +5,36 @@ class SignUpReaction(commands.Cog):
     def __init__(self, client):
         self.client = client
 
+    def is_it_reaction_to_sign_up(self, set, messageId):
+        if set.signUpMsg and messageId == set.signUpMsg.id:
+            return True
+        if set.last_fun_code_public_msg and messageId == set.last_fun_code_public_msg.id:
+            return True
+        return False
+
     @commands.Cog.listener()
     async def on_reaction_add(self, react, user):
-        if user == self.client.user:
+        if user.bot:
             return
-        if react.message.channel.name != self.client.signUpChanName or not self.client.signUpMessage:
-            return
-        if self.client.signUpMessage and react.message.id == self.client.signUpMessage.id:
-            activeRole = discord.utils.get(react.message.guild.roles, name=self.client.activeRoleName)
-            if not self.client.fillerMsg and len(activeRole.members) >= self.client.maxActivePlayers:
-                self.client.fillerMsg = await react.message.channel.send("You can react here to be a Filler")
-                await self.client.fillerMsg.add_reaction(self.client.fillerReactEmoji)
-            if len(activeRole.members) >= self.client.maxActivePlayers:
-                await react.message.remove_reaction(self.client.signUpEmoji, user)
-                await user.send("Sorry the Active role is full for now. You can react to be a Filler")
-                return
-            await user.add_roles(activeRole)
+        for set in self.client.Sets:
+            if self.is_it_reaction_to_sign_up(set, react.message.id) and not set.isFull:
+                await set.add_player(self.client, user)
+                if set.isFull:
+                    set.complete(self.client)
 
     @commands.Cog.listener()
     async def on_reaction_remove(self, react, user):
-        if user == self.client.user:
+        if user.bot:
             return
-        if react.message.channel.name != self.client.signUpChanName or not self.client.signUpMessage:
-            return
-        if react.message.id == self.client.signUpMessage.id:
-            activeRole = discord.utils.get(react.message.guild.roles, name=self.client.activeRoleName)
-            logs = discord.utils.get(react.message.guild.channels, name=self.client.logsChan)
-            await logs.send('{} removed his active role'.format(user.name))
-            await user.remove_roles(activeRole)
-
+        for set in self.client.Sets:
+            if self.is_it_reaction_to_sign_up(set, react.message.id):
+                await set.add_player(self.client, user)
+                try:
+                    await set.remove_player(self.client, user)
+                    logs = self.client.usefulChannels['logsChan']
+                    await logs.send('{} removed his active role'.format(user.name))
+                except Exception:
+                    print('No role to remove')
 
 def setup(client):
     client.add_cog(SignUpReaction(client))

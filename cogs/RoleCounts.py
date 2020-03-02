@@ -21,7 +21,7 @@ class RoleCounts(commands.Cog):
 
     @commands.command(name='.rs')
     async def rs(self, ctx, *args):
-        if ctx.channel.name != self.client.adminBotCommandChan:
+        if ctx.channel.id != self.client.usefulChannels["botCommandChan"].id:
             return
         if not args:
             return await self.rsCmdError(ctx)
@@ -37,7 +37,7 @@ class RoleCounts(commands.Cog):
 
     @commands.command(name='.whois')
     async def whois(self, ctx, *args):
-        if ctx.channel.name != self.client.adminBotCommandChan:
+        if ctx.channel.id != self.client.usefulChannels["botCommandChan"].id:
             return
         if not args:
             return await self.whoisCmdError(ctx)
