@@ -38,6 +38,14 @@ class Utils(commands.Cog):
             await member.remove_roles(activeRole)
         for member in organizingRole.members:
             await member.remove_roles(organizingRole)
+        for role in self.client.BracketRoles:
+            if not len(self.client.BracketRoles[role].members):
+                continue
+            for member in self.client.BracketRoles[role].members:
+                try:
+                    await member.remove_roles(self.client.BracketRoles[role])
+                except Exception as e:
+                    print(e)
         if arg != 'clear':
             return
         codeChan = self.client.usefulChannels["codesChan"]
