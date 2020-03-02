@@ -1,4 +1,7 @@
-ServerId = 669299962336772126
+testServerId = 665887600921542676
+realServerId = 669299962336772126
+
+ServerId = realServerId
 
 ### Text-channels names
 
@@ -75,50 +78,3 @@ platformSelectionMessage = 670262105060147207
 minutesToChoseAClass = 3
 
 MAX_NB_PLAYER_PER_GAME = 10
-
-"""
-    def isItStartASetChan(self, event):
-        guild = discord.utils.get(self.client.guilds, id=event.guild_id)
-        if guild != self.client.server:
-            return False
-        startASetChan = self.client.usefulChannels["startASetChan"]
-        if not event.emoji:
-            return False
-        return event.channel_id == startASetChan.id and event.emoji.name == self.client.signUpEmoji
-
-    @commands.Cog.listener()
-    async def on_raw_reaction_add(self, event):
-        if not self.isItStartASetChan(event):
-            return
-        print("Starting a set")
-
-    @commands.Cog.listener()
-    async def on_raw_reaction_remove(self, event):
-        if not self.isItStartASetChan(event):
-            return
-
-    @commands.command(name='.start')
-    async def start(self, ctx, mins='15'):
-        if ctx.channel.id != self.client.usefulChannels["botCommandChan"].id:
-            return
-        try:
-            minsNb = float(mins)
-        except (ValueError, TypeError):
-            return await self.start_cmd_error(ctx)
-        self.client.signUpCmdMsg = ctx.message
-        await self.client.signUpCmdMsg.add_reaction(self.client.signUpEmoji)
-        sign_up_chan = self.client.usefulChannels["signUpChan"]
-        players = self.client.usefulRoles["playerRole"]
-        if minsNb == 0:
-            self.client.signUpMessage = await sign_up_chan.send('{} games starting in 15 minutes, react to participate !'.format(players.mention))
-            await self.client.signUpMessage.add_reaction(self.client.signUpEmoji)
-            return
-        minutesStr = 'minute' if (minsNb <= 1) else 'minutes'
-        temp = await sign_up_chan.send(
-            '{} Sign up for the next set in {} {} !\nBe quick or you might miss it :wink:'.format(players.mention, mins, minutesStr))
-        await asyncio.sleep(60 * minsNb)
-        await temp.delete()
-        self.client.signUpMessage = await sign_up_chan.send('Please react here to play in the set !')
-        await self.client.signUpMessage.add_reaction(self.client.signUpEmoji)
-
-"""

@@ -4,3 +4,4 @@ __pycache__/
 mainLocal.py
 *.pyc
 tempFiles/
+old/
