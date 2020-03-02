@@ -30,7 +30,7 @@ class Utils(commands.Cog):
 
     @commands.command(name='.clear')
     async def clear(self, ctx):
-        if ctx.channel.name != self.client.adminBotCommandChan:
+        if ctx.channel.name != self.client.usefulChannels['startSetChan'] and ctx.channel.name != self.client.usefulChannels['botCommandChan']:
             return
         try:
             await ctx.channel.purge(limit=200)
