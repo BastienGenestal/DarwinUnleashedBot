@@ -7,6 +7,8 @@ class RemoveWinnerMedKitRole(commands.Cog):
 
     @commands.Cog.listener()
     async def on_member_update(self, before, after):
+        if not self.client.usefulRoles or not self.client.usefulRoles['winnerRole']:
+            return
         wasAttributed = self.client.usefulRoles['winnerRole'] in before.roles
         isAttributed = self.client.usefulRoles['winnerRole'] in after.roles
         if wasAttributed != isAttributed and isAttributed:
