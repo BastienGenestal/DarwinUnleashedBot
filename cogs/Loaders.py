@@ -28,7 +28,7 @@ class Loaders(commands.Cog):
                 except Exception as e:
                     print(filename, e)
 
-    @commands.command(name='.load')
+    @commands.command()
     @has_permissions(administrator=True)
     async def load(self, ctx, args):
         args = await self.parse_args(args)
@@ -37,7 +37,7 @@ class Loaders(commands.Cog):
         await self.for_each_cog(['load'], args)
         print('Loaded {}'.format(args))
 
-    @commands.command(name='.unload')
+    @commands.command()
     @has_permissions(administrator=True)
     async def unload(self, ctx, args):
         args = await self.parse_args(args)
@@ -46,7 +46,7 @@ class Loaders(commands.Cog):
         await self.for_each_cog(['unload'], args)
         print('Unloaded {}'.format(args))
 
-    @commands.command(name='.reload')
+    @commands.command()
     @has_permissions(administrator=True)
     async def reload(self, ctx, args):
         args = await self.parse_args(args)
@@ -55,17 +55,17 @@ class Loaders(commands.Cog):
         await self.for_each_cog(['unload', 'load'], args)
         print('Reloaded {}'.format(args))
 
-    @commands.command(name='.reloadAll')
+    @commands.command()
     @has_permissions(administrator=True)
     async def reloadAll(self, ctx):
         await self.for_each_cog(['unload', 'load'])
 
-    @commands.command(name='.loadAll')
+    @commands.command()
     @has_permissions(administrator=True)
     async def loadAll(self, ctx):
         await self.for_each_cog(['load'])
 
-    @commands.command(name='.unloadAll')
+    @commands.command()
     @has_permissions(administrator=True)
     async def unloadAll(self, ctx):
         await self.for_each_cog(['unload'])

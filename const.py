@@ -1,20 +1,19 @@
 testServerId = 665887600921542676
 realServerId = 669299962336772126
 
-ServerId = realServerId
+ServerId = testServerId
 
 ### Text-channels names
 
 UsefulChannelNames = {
-    ("startSetChan", "start-a-set"),
-    ("funGames", "fun-games"),
-    ("logsChan", "bot-commands"),
+    ("startSetChan", "direct-a-set"),
+    ("funGames", "public-codes"),
+    ("codesChan", "codes"),
     ("signUpChan", "sign-up"),
+    ("logsChan", "bot-commands"),
     ("botCommandChan", "bot-commands"),
-    ("codesChan", "codes-and-class-reactions"),
     ("selectRegionChan", "about-you"),
     ("selectPlatformChan", "about-you"),
-    ("startASetChan", "start-a-set"),
     ("feedbackChan", "feedback"),
     ("receivedFeedbackChan", "received-feedback")
 }

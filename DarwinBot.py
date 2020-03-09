@@ -38,7 +38,7 @@ class DarwinBot(commands.Bot):
 
         # Non - constant variable initialization
 
-        self.signUpMessage = None
+        self.startASetMsg = None
 
         # Loading the server, channels, roles...
         for filename in os.listdir('./init'):

@@ -30,7 +30,7 @@ class RegionChoice(commands.Cog):
                 await user.remove_roles(regionRole)
                 return
 
-    @commands.command(name='.init_region_msg')
+    @commands.command()
     async def init_region_msg(self, ctx):
         if ctx.channel.id != self.client.usefulChannels["botCommandChan"].id:
             return

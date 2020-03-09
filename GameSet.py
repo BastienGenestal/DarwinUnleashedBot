@@ -68,7 +68,7 @@ class GameSet:
         if self.signUpMsg:
             await self.signUpMsg.delete()
             self.signUpMsg = None
-            await client.usefulChannels['startASetChan'].send(
+            await client.usefulChannels['startSetChan'].send(
                 '{} Players joined\n'
                 '{}\n'
                 'The set should start now.'.format(len(self.bracket.members), why))

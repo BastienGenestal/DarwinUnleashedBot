@@ -133,7 +133,7 @@ class CodeAndClassManagement(commands.Cog):
             return 0
         return gameNb
 
-    @commands.command(name='.code_old')
+    @commands.command()
     async def code(self, ctx, game='', code=''):
         if ctx.channel.id != self.client.usefulChannels["botCommandChan"].id:
             return
@@ -151,7 +151,7 @@ class CodeAndClassManagement(commands.Cog):
             await self.removeSignUpMessages(ctx)
         await self.printClassesByPlayer(codeChan)
 
-    @commands.command(name='.end')
+    @commands.command()
     async def end(self, ctx, arg=''):
         if ctx.channel.id != self.client.usefulChannels["botCommandChan"].id:
             return

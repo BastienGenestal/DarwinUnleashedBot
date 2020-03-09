@@ -19,7 +19,7 @@ class RoleCounts(commands.Cog):
             "\t.whois active organizer```"
         )
 
-    @commands.command(name='.rs')
+    @commands.command()
     async def rs(self, ctx, *args):
         if ctx.channel.id != self.client.usefulChannels["botCommandChan"].id:
             return
@@ -35,7 +35,7 @@ class RoleCounts(commands.Cog):
             msg = "Unknown role"
         await ctx.channel.send("```{}```".format(msg))
 
-    @commands.command(name='.whois')
+    @commands.command()
     async def whois(self, ctx, *args):
         if ctx.channel.id != self.client.usefulChannels["botCommandChan"].id:
             return

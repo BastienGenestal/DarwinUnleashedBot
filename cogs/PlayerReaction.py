@@ -28,7 +28,7 @@ class PlayerReaction(commands.Cog):
         user = discord.utils.get(guild.members, id=event.user_id)
         await user.remove_roles(playerRole)
 
-    @commands.command(name='.init')
+    @commands.command()
     async def init(self, ctx):
         if ctx.channel.id != self.client.usefulChannels["botCommandChan"].id:
             return

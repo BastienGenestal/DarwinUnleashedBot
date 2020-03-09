@@ -9,7 +9,7 @@ class DefaultCog(commands.Cog):
     async def on_ready(self):
         print('Bot Ready')
 
-    @commands.command(name='.ping')
+    @commands.command()
     async def ping(self, ctx):
         await ctx.channel.send("pong")
 

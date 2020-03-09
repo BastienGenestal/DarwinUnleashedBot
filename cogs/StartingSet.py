@@ -5,11 +5,10 @@ from const_messages import START_A_SET_MSG
 class StartingSet(commands.Cog):
     def __init__(self, client):
         self.client = client
-        self.client.startASetMsg = None
 
     @staticmethod
     async def sendStartMessage(client):
-        return await client.usefulChannels['startASetChan'].send(
+        return await client.usefulChannels['startSetChan'].send(
             START_A_SET_MSG.format(client.usefulCustomEmotes['unleashed'],
                                    client.usefulCustomEmotes['unleashed'],
                                    client.usefulBasicEmotes['signUpWinner'],
@@ -18,7 +17,7 @@ class StartingSet(commands.Cog):
 
     @commands.Cog.listener()
     async def on_ready(self):
-        await self.client.usefulChannels['startASetChan'].purge()
+        await self.client.usefulChannels['startSetChan'].purge()
         self.client.startASetMsg = await self.sendStartMessage(self.client)
         await self.client.startASetMsg.add_reaction(self.client.usefulBasicEmotes['signUpWinner'])
         await self.client.startASetMsg.add_reaction(self.client.usefulBasicEmotes['signUpNoWinner'])

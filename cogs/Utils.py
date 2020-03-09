@@ -1,7 +1,7 @@
 import discord
 from discord.ext import commands
 from discord.ext.commands import CommandNotFound
-
+from discord.ext.commands import has_permissions, CheckFailure
 
 class Utils(commands.Cog):
     def __init__(self, client):
@@ -18,7 +18,7 @@ class Utils(commands.Cog):
         role = self.client.usefulRoles["medKitRole"]
         await member.add_roles(role)
 
-    @commands.command(name='.refresh_players')
+    @commands.command()
     async def refresh_players(self, ctx):
         signUpChan = self.client.usefulChannels["signUpChan"]
         playerRole = self.client.usefulRoles["playerRole"]
@@ -28,7 +28,7 @@ class Utils(commands.Cog):
             if playerRole not in user.roles:
                 await user.add_roles(playerRole)
 
-    @commands.command(name='.end')
+    @commands.command()
     async def end(self, ctx, arg=''):
         if ctx.channel.id != self.client.usefulChannels["botCommandChan"].id:
             return
@@ -51,15 +51,40 @@ class Utils(commands.Cog):
         codeChan = self.client.usefulChannels["codesChan"]
         await codeChan.purge(limit=50)
 
+    def is_not_start_a_set_msg(self, msg):
+        return self.client.startASetMsg.id != msg.id
 
-    @commands.command(name='.clear')
-    async def clear(self, ctx):
+    @commands.command()
+    @has_permissions(administrator=True, manage_messages=True)
+    async def purge(self, ctx):
         if ctx.channel.name != self.client.usefulChannels['startSetChan'] and ctx.channel.name != self.client.usefulChannels['botCommandChan']:
             return
         try:
-            await ctx.channel.purge(limit=200)
+            await ctx.channel.purge(limit=200, check=self.is_not_start_a_set_msg)
         except Exception as e:
             print(e)
+
+    @commands.command()
+    @has_permissions(administrator=True, manage_messages=True)
+    async def clear(self, ctx, args=None):
+        maxNb = 50
+        nbMsgToDelete = 10
+        if args:
+            try:
+                nbMsgToDelete = int(args)
+                if nbMsgToDelete > maxNb:
+                    nbMsgToDelete = maxNb
+            except ValueError:
+                nbMsgToDelete = 10
+        try:
+            await ctx.channel.purge(limit=(nbMsgToDelete + 1), check=self.is_not_start_a_set_msg)
+        except Exception as e:
+            print(e)
+
+    @clear.error
+    async def clear_error(error, ctx):
+        if isinstance(error, CheckFailure):
+            await ctx.message.channel.send("Looks like you don't have the perm.")
 
 def setup(client):
     client.add_cog(Utils(client))

@@ -28,7 +28,7 @@ class PlatformChoice(commands.Cog):
                 await user.remove_roles(platformRole)
                 return
 
-    @commands.command(name='.init_platform_msg')
+    @commands.command()
     async def init_platform_msg(self, ctx):
         if ctx.channel.id != self.client.usefulChannels["botCommandChan"].id:
             return

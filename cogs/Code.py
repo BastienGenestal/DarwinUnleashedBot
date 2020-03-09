@@ -2,7 +2,7 @@ import discord
 from discord.ext import commands
 import re
 
-from const_messages import CODE_MESSAGE
+from const_messages import CODE_MESSAGE, FUN_GAMES_CODE_MSG
 
 
 class CodeCog(commands.Cog):
@@ -51,7 +51,9 @@ class CodeCog(commands.Cog):
     async def on_message(self, msg):
         if msg.author.bot:
             return
-        if msg.channel.id != self.client.usefulChannels["startASetChan"].id:
+        if msg.channel.id != self.client.usefulChannels["startSetChan"].id:
+            return
+        if msg.content.startswith(self.client.command_prefix):
             return
         rightSet = self.get_set_object(msg.author)
         if not rightSet:
@@ -68,16 +70,30 @@ class CodeCog(commands.Cog):
             return
         return await msg.channel.send("Invalid Darwin Project code : **{}**.".format(msg.content))
 
-    async def post_code(self, rightSet, code=''):
+    async def post_code(self, right_set, code=''):
         code_channel = self.client.usefulChannels["codesChan"]
 
-        code_msg = await code_channel.send(CODE_MESSAGE.format(rightSet.bracket.mention, code))
+        code_msg = await code_channel.send(
+            CODE_MESSAGE.format(
+                right_set.bracket.mention,
+                code,
+                self.client.usefulBasicEmotes['cancel'],
+                self.client.usefulChannels['funGames']
+            )
+        )
         await code_msg.add_reaction(self.client.usefulBasicEmotes["cancel"])
-        rightSet.last_code_public_msg = code_msg
-        if rightSet.forFun:
-            fun_code_msg = await self.client.usefulChannels['funGames'].send("Code : **{}**\n to join {} {}/10 players".format(code, rightSet.bracket.name, len(rightSet.bracket.members)))
+        right_set.last_code_public_msg = code_msg
+        if right_set.forFun:
+            fun_code_msg = await self.client.usefulChannels['funGames'].send(
+                FUN_GAMES_CODE_MSG.format(
+                    right_set.bracket.name,
+                    len(right_set.bracket.members),
+                    code,
+                    self.client.usefulBasicEmotes['signUp']
+                )
+            )
             await fun_code_msg.add_reaction(self.client.usefulBasicEmotes["signUp"])
-            rightSet.last_fun_code_public_msg = fun_code_msg
+            right_set.last_fun_code_public_msg = fun_code_msg
 
 
 
