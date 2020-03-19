@@ -1,7 +1,7 @@
 testServerId = 665887600921542676
 realServerId = 669299962336772126
 
-ServerId = testServerId
+ServerId = realServerId
 
 ### Text-channels names
 
