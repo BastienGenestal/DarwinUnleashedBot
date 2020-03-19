@@ -61,8 +61,6 @@ class CodeCog(commands.Cog):
             await msg.author.send("You are not directing any set.")
             await msg.delete()
             return
-        # if self.check_screenshot:
-        #   await read_screeshot()
         if self.check_code(msg.content):
             await self.post_code(rightSet, msg.content)
             await msg.add_reaction(self.client.usefulBasicEmotes["cancel"])

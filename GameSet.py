@@ -124,18 +124,15 @@ class GameSet:
 
         await self.director.remove_roles(client.usefulRoles['organizingRole'])
         self.director = None
-
         self.forWinner = None
 
         if self.signUpMsg:
             await self.signUpMsg.delete()
             self.signUpMsg = None
-
         if self.last_fun_code_public_msg:
             self.last_fun_code_public_msg.delete()
             self.last_fun_code_public_msg = None
         self.forFun = True
-
         if self.task and not self.task.cancelled:
             self.task.cancel()
         if self.endTask and not self.endTask.cancelled:

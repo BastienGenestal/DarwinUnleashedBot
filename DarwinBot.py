@@ -18,15 +18,7 @@ class DarwinBot(commands.Bot):
         self.usefulCogs = {}
         self.Sets = []
 
-        self.platformEmojis = platformEmojis
-        self.regionEmojis = regionEmojis
-
-        self.regions = regions
-        self.platforms = platforms
-
         self.medKitToPlayerMessageId = medKitToPlayerMessageId
-        self.regionSelectionMessageId = regionSelectionMessage
-        self.platformSelectionMessageId = platformSelectionMessage
 
         self.MAX_NB_PLAYER_PER_GAME = MAX_NB_PLAYER_PER_GAME
 

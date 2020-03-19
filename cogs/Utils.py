@@ -13,11 +13,6 @@ class Utils(commands.Cog):
             return
         raise error
 
-    @commands.Cog.listener()
-    async def on_member_join(self, member):
-        role = self.client.usefulRoles["medKitRole"]
-        await member.add_roles(role)
-
     @commands.command()
     async def refresh_players(self, ctx):
         signUpChan = self.client.usefulChannels["signUpChan"]

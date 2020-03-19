@@ -1,7 +1,7 @@
 testServerId = 665887600921542676
 realServerId = 669299962336772126
 
-ServerId = testServerId
+ServerId = realServerId
 
 ### Text-channels names
 
@@ -11,11 +11,7 @@ UsefulChannelNames = {
     ("codesChan", "codes"),
     ("signUpChan", "sign-up"),
     ("logsChan", "bot-commands"),
-    ("botCommandChan", "bot-commands"),
-    ("selectRegionChan", "about-you"),
-    ("selectPlatformChan", "about-you"),
-    ("feedbackChan", "feedback"),
-    ("receivedFeedbackChan", "received-feedback")
+    ("botCommandChan", "bot-commands")
 }
 
 ### Roles names
@@ -39,12 +35,6 @@ BracketRoles = {
 
 ### Emotes
 
-regionEmojis =["🇪🇺", "🇺🇸", "🇧🇷", "🇦🇺", "🏳️", "㊙️"]
-regions = ["EU",  "NA-East", "SA", "AP(Sydney)", "NA-West", "AP(Singapore)"]
-
-platformEmojis =  ["🖱️", "❌", "🎮"]
-platforms = ["PC", "Xbox", "PS4"]
-
 UsefulCustomEmotes = {
     ("unleashed", "unleashed"),
     ("wings", "wings"),
@@ -62,8 +52,6 @@ UsefulBasicEmotes = {
 ### Const IDs
 
 medKitToPlayerMessageId = 669847178419896322
-regionSelectionMessage = 670266247023427594
-platformSelectionMessage = 670262105060147207
 
 ### Other values
 
