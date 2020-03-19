@@ -1,7 +1,7 @@
 testServerId = 665887600921542676
 realServerId = 669299962336772126
 
-ServerId = realServerId
+ServerId = testServerId
 
 ### Text-channels names
 
@@ -39,9 +39,6 @@ BracketRoles = {
 
 ### Emotes
 
-classEmojis = ["<:wings:671004464974397443>", "<:grapple:671004444204466176>", "<:birdrone:671004417356595233>"]
-classEmojisId = [671004464974397443, 671004444204466176, 671004417356595233]
-
 regionEmojis =["🇪🇺", "🇺🇸", "🇧🇷", "🇦🇺", "🏳️", "㊙️"]
 regions = ["EU",  "NA-East", "SA", "AP(Sydney)", "NA-West", "AP(Singapore)"]
 
@@ -62,10 +59,6 @@ UsefulBasicEmotes = {
     ("cancel", "❎"),
 }
 
-#("signUpWinnerEmote", "🎖"),("signUpNotWinnerEmote️e", "⚽"),
-
-signUpEmoji = '✅'
-
 ### Const IDs
 
 medKitToPlayerMessageId = 669847178419896322
@@ -74,6 +67,6 @@ platformSelectionMessage = 670262105060147207
 
 ### Other values
 
-minutesToChoseAClass = 3
-
 MAX_NB_PLAYER_PER_GAME = 10
+MINUTES_TO_SIGN_UP = 15
+MINUTES_TO_END_SET = 60

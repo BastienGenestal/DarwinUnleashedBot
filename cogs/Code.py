@@ -39,6 +39,7 @@ class CodeCog(commands.Cog):
                 await rightSet.last_code_public_msg.delete()
                 if rightSet.last_fun_code_public_msg:
                     await rightSet.last_fun_code_public_msg.delete()
+                    rightSet.last_fun_code_public_msg = None
                 return
         elif react.message.channel == self.client.usefulChannels['codesChan']:
             rightSet = self.get_set_object_public_msg(react.message)
@@ -93,6 +94,8 @@ class CodeCog(commands.Cog):
                 )
             )
             await fun_code_msg.add_reaction(self.client.usefulBasicEmotes["signUp"])
+            if right_set.last_fun_code_public_msg:
+                await right_set.last_fun_code_public_msg.delete()
             right_set.last_fun_code_public_msg = fun_code_msg
 
 

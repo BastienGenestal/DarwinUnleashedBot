@@ -20,7 +20,7 @@ class SignUpReaction(commands.Cog):
             if self.is_it_reaction_to_sign_up(set, react.message.id) and not set.isFull:
                 await set.add_player(self.client, user)
                 if set.isFull:
-                    set.complete(self.client)
+                    await set.complete(self.client)
 
     @commands.Cog.listener()
     async def on_reaction_remove(self, react, user):

@@ -35,7 +35,7 @@ class PlayerReaction(commands.Cog):
         signUpChan = self.client.usefulChannels["signUpChan"]
         playerMessage = await signUpChan.send(
             'If you are interested in getting a notification for the next set react here to become a player (:')
-        await playerMessage.add_reaction(self.client.signUpEmoji)
+        await playerMessage.add_reaction(self.client.usefulBasicEmotes['signUp'])
 
 
 def setup(client):

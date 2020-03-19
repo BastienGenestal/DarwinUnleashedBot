@@ -23,7 +23,7 @@ class Utils(commands.Cog):
         signUpChan = self.client.usefulChannels["signUpChan"]
         playerRole = self.client.usefulRoles["playerRole"]
         msg = await signUpChan.fetch_message(self.client.medKitToPlayerMessageId)
-        reaction = discord.utils.get(msg.reactions, emoji=self.client.signUpEmoji)
+        reaction = discord.utils.get(msg.reactions, emoji=self.client.usefulBasicEmotes['signUp'])
         async for user in reaction.users():
             if playerRole not in user.roles:
                 await user.add_roles(playerRole)

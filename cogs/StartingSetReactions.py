@@ -14,7 +14,7 @@ class StartingReactionsSet(commands.Cog):
         mentionPlayers = self.client.usefulRoles['playerRole'].mention
         msg = SIGN_UP_HERE_MSG.format(mentionPlayers, user.mention, react.emoji, react.emoji)
         signUpMsg = await self.client.usefulChannels['signUpChan'].send(msg)
-        await signUpMsg.add_reaction(self.client.signUpEmoji)
+        await signUpMsg.add_reaction(self.client.usefulBasicEmotes['signUp'])
         return signUpMsg
 
     def is_it_for_winner(self, emoji):
@@ -29,7 +29,6 @@ class StartingReactionsSet(commands.Cog):
         try:
             new_set = await GameSet.create(GameSet(), self.client, user, forWinner)
             self.client.Sets.append(new_set)
-            await new_set.await_task()
         except Exception as e:
             await react.message.remove_reaction(react.emoji, user)
             print(e)
@@ -44,7 +43,6 @@ class StartingReactionsSet(commands.Cog):
         if self.client.startASetMsg and react.message.id == self.client.startASetMsg.id:
             await self.react_on_start_a_set(react, user)
         return
-
 
     @commands.Cog.listener()
     async def on_reaction_remove(self, react, user):

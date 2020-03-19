@@ -15,17 +15,11 @@ class DarwinBot(commands.Bot):
         self.BracketRoles = {}
         self.usefulCustomEmotes = {}
         self.usefulBasicEmotes = {}
-
+        self.usefulCogs = {}
         self.Sets = []
 
         self.platformEmojis = platformEmojis
         self.regionEmojis = regionEmojis
-
-        self.classEmojis = classEmojis
-        self.classEmojisId = classEmojisId
-        self.signUpEmoji = signUpEmoji
-
-        self.minutesToChoseAClass = minutesToChoseAClass
 
         self.regions = regions
         self.platforms = platforms
