@@ -1,7 +1,7 @@
 import discord
 from discord.ext import commands
-from discord.ext.commands import CommandNotFound
-from discord.ext.commands import has_permissions, CheckFailure
+from discord.ext.commands import CommandNotFound, has_permissions, CheckFailure
+
 
 class Utils(commands.Cog):
     def __init__(self, client):
@@ -52,7 +52,8 @@ class Utils(commands.Cog):
     @commands.command()
     @has_permissions(administrator=True, manage_messages=True)
     async def purge(self, ctx):
-        if ctx.channel.name != self.client.usefulChannels['startSetChan'] and ctx.channel.name != self.client.usefulChannels['botCommandChan']:
+        if ctx.channel.name != self.client.usefulChannels['startSetChan'] and ctx.channel.name != \
+                self.client.usefulChannels['botCommandChan']:
             return
         try:
             await ctx.channel.purge(limit=200, check=self.is_not_start_a_set_msg)
@@ -76,10 +77,6 @@ class Utils(commands.Cog):
         except Exception as e:
             print(e)
 
-    @clear.error
-    async def clear_error(error, ctx):
-        if isinstance(error, CheckFailure):
-            await ctx.message.channel.send("Looks like you don't have the perm.")
 
 def setup(client):
     client.add_cog(Utils(client))
