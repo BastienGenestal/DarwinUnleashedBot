@@ -121,8 +121,15 @@ class GameSet:
             await player.remove_roles(client.usefulRoles['activeRole'], self.bracket)
         self.bracket = None
         self.isFull = False
-
-        await self.director.remove_roles(client.usefulRoles['organizingRole'])
+        emoteToRemove = client.usefulBasicEmotes['signUpWinner' if self.forWinner else 'signUpNoWinner']
+        try:
+            await client.startASetMsg.remove_reaction(emoteToRemove, self.director.name)
+        except:
+            print('No reacion from {} on the start a set message.'.format(self.director.name))
+        try:
+            await self.director.remove_roles(client.usefulRoles['organizingRole'])
+        except:
+            print('No director role to remove from {}.'.format(self.director))
         self.director = None
         self.forWinner = None
 
