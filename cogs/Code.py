@@ -16,7 +16,7 @@ class CodeCog(commands.Cog):
 
     def get_set_object(self, author): # TODO: get_set_object from DIRECTOR/BRACKET/LAST_CMD_MSG/...
         for set in self.client.Sets:
-            if set.director.id == author.id:
+            if set.director and set.director.id == author.id:
                 return set
         return None
 
