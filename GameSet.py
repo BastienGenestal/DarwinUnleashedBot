@@ -137,7 +137,7 @@ class GameSet:
             await self.signUpMsg.delete()
             self.signUpMsg = None
         if self.last_fun_code_public_msg:
-            self.last_fun_code_public_msg.delete()
+            await self.last_fun_code_public_msg.delete()
             self.last_fun_code_public_msg = None
         self.forFun = True
         if self.task and not self.task.cancelled:
