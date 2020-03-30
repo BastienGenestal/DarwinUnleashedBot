@@ -123,9 +123,10 @@ class GameSet:
         self.isFull = False
         emoteToRemove = client.usefulBasicEmotes['signUpWinner' if self.forWinner else 'signUpNoWinner']
         try:
-            await client.startASetMsg.remove_reaction(emoteToRemove, self.director.name)
-        except:
-            print('No reacion from {} on the start a set message.'.format(self.director.name))
+            await client.startASetMsg.remove_reaction(emoteToRemove, self.director)
+        except Exception as e:
+            print(e)
+            print('No reaction from {} on the start a set message.'.format(self.director.name))
         try:
             await self.director.remove_roles(client.usefulRoles['organizingRole'])
         except:
