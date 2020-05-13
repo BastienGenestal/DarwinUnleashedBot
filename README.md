@@ -1,1 +1,3 @@
-# DarwinBot5vs5_2020
+# Darwin Project Unleashed 
+
+A python discord bot that allows players to create Darwin Project Unleashed sets, game per game.
